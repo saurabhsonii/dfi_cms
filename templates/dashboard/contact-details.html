@@ -1,0 +1,49 @@
+{% extends 'dashboard/head.html' %}
+{% load static %}
+{% block content %}
+
+
+           <div class="container-fluid">
+
+                
+                <div class="d-flex align-items-baseline justify-content-between">
+                    
+                    <!-- Title -->
+                    <h1 class="h2 d-flex">
+                        Contact Details
+                    </h1>
+
+                  
+                </div>
+
+                <!-- Card -->
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="row justify-content-between">
+                            <div class="col-md-7 col-xl-6 col-xxl-5">
+                                    <img src="https://d33wubrfki0l68.cloudfront.net/ba6b91b7d508187d153e48318c22d0773a9cedfc/36afa/assets/images/logo.svg" alt="..." class="mb-7" width="125" height="25">
+
+                                <div>
+                                    <p>NAME  - {{contact.name}} </p>
+                                    <p>SUBJECT  - {{contact.subject}} </p>
+                                    <p>MESSAGE - {{contact.message}}</p>
+                                    <p><br>
+                                        Date: <br>
+                                        {{contact.created_at}}</p>
+                                </div>
+                            </div>
+                            <div class="col-auto text-md-end">
+                                <p class="fw-bold">Phone number <br>{{contact.phone_number}}<br><br>
+                                Email<br>{{contact.email}}</p>
+                                
+                            </div>
+                        </div> <!-- / .row -->
+
+                        <!-- Divider -->
+                        <hr>
+
+                    
+
+                  
+
+{% endblock %}
