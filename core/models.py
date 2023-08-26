@@ -48,7 +48,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     phone_number = models.PositiveIntegerField(max_length=12)
     address = models.CharField(max_length=350, null=True, blank=True)
     profile_image = models.ImageField(
-        upload_to="profile", null=True, blank=True)
+        upload_to="profile/", null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     user_role = models.CharField(choices=USER_ROLE, max_length=50)
@@ -79,3 +79,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=50)
+    email = models.EmailField(null=True, blank=True)
+    subject = models.CharField(max_length=250, null=True, blank=True)
+    phone_number = models.CharField(max_length=12)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now=True)
