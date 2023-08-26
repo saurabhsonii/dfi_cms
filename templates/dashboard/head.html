@@ -521,7 +521,7 @@
                         role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true"
                         aria-expanded="false" data-bs-offset="0,0">
                         <div class="avatar avatar-circle avatar-sm avatar-online">
-                            <img src="../d33wubrfki0l68.cloudfront.net/053f2dfd0df2f52c41e903a21d177b0b44abc9b1/1282c/assets/images/profiles/profile-06.jpg"
+                            <img src="{% static 'assets/images/avtar.jpg' %}"
                                 alt="..." class="avatar-img" width="40" height="40">
                         </div>
                     </a>
@@ -530,12 +530,14 @@
                         <div class="dropdown-item-text">
                             <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm avatar-circle">
-                                    <img src="../d33wubrfki0l68.cloudfront.net/053f2dfd0df2f52c41e903a21d177b0b44abc9b1/1282c/assets/images/profiles/profile-06.jpg"
+                                    <img src="{% static 'assets/images/avtar.jpg' %}"
                                         alt="..." class="avatar-img" width="40" height="40">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <h4 class="mb-0">GwaliorGeeks</h4>
-                                    <p class="card-text">GwaliorGeeks@GwaliorGeeks.com</p>
+                                    <h4 class="mb-0">{{ user.name }}</h4>
+                                    <span class="badge text-bg-success-soft fs-5 fw-bold mb-n1">
+                                        {{ user.user_role }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -546,7 +548,7 @@
 
                         <hr class="dropdown-divider">
 
-                        <a class="dropdown-item" href="javascript: void(0);">Sign out</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
                     </div>
                 </div>
             </div>
