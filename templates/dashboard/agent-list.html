@@ -9,7 +9,7 @@
                     
                     <!-- Title -->
                     <h1 class="h2">
-                        API Keys
+                        Agent
                     </h1>
 
                     <!-- Breadcrumb -->
@@ -39,7 +39,7 @@
 
                                     <!-- Title -->
                                     <h2 class="card-header-title h4 text-uppercase">
-                                        API Keys
+                                        Agent
                                     </h2>
 
                                     <input class="form-control list-fuzzy-search mw-md-300px ms-md-auto mt-5 mt-md-0 mb-3 mb-md-0" type="search" placeholder="Search in keys">
@@ -65,12 +65,12 @@
                                             </th>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    Phone number
+                                                    Email
                                                 </a>
                                             </th>
                                             <th>
-                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    Subject
+                                                <a href="javascript: void(0);" class="text-muted " style="text-align:center;">
+                                                    Active 
                                                 </a>
                                             </th>
                                             <th>
@@ -92,18 +92,19 @@
 
                                     <tbody class="list">
                                         
-                                        {% for contact in contacts %}
+                                        {% for agent in agents %}
                                         <tr>
-                                            <td class="name">{{contact.name}}</td>
-                                            <td class="name">{{contact.phone_number}}</td> 
-                                            {% if contact.is_seen %}      
-                                                <td class="status" data-status="Inactive"><span class="legend-circle bg-warning"></span>{{contact.subject}}</td>
+                                            <td class="name">{{agent.name}}</td>
+                                            <td class="name">{{agent.email}}</td> 
+                                            {% if agent.active %}      
+                                            <td class="status" data-status="active"><span class="legend-circle bg-success"></span>{{agent.subject}}</td> 
+                                                
                                             {% else %}           
-                                                <td class="status" data-status="active"><span class="legend-circle bg-success"></span>{{contact.subject}}</td> 
+                                                <td class="status" data-status="Inactive"><span class="legend-circle bg-warning"></span>{{agent.subject}}</td>
                                             {% endif %}
                                             {% comment %} <td class="name">{{contact.message}}</td> {% endcomment %}
-                                             <td class="name">{{contact.email}}</td>
-                                            <td class="created" data-created="1646179200">{{contact.created_at}}</td>
+                                             <td class="name">{{agent.phone_number}}</td>
+                                            <td class="created" data-created="1646179200">{{agent.date_joined}}</td>
                                             <td>
                                                 <!-- Dropdown -->
                                                 <div class="dropdown float-end">
@@ -112,14 +113,14 @@
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <a class="dropdown-item" href="{% url 'contact_details' contact.id %}">
+                                                            <a class="dropdown-item" href="{% url 'update_agent' agent.id %}">
                                                                 Details
                                                             </a>
                                                         </li>
                                                       
                                                         <li><hr class="dropdown-divider"></li>
                                                         <li>
-                                                            <a class="dropdown-item text-danger" href="{% url 'delete_contact' contact.id %}">
+                                                            {% comment %} <a class="dropdown-item text-danger" href="{% url 'delete_contact' agent.id %}"> {% endcomment %}
                                                                 Delete
                                                             </a>
                                                         </li>

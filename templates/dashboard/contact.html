@@ -173,14 +173,12 @@
                         <form method="post">
                             {% csrf_token %}
 
-                            {% if messages %}
-                               
+                             {% if messages %}
                                     {% for message in messages %}
-                                    <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}" role="{{ message.tags }}">
-                                           {{ message }}
-                                    </div>
-                                    {% endfor %}
-                                
+                                        <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}" role="{{ message.tags }}">
+                                                {{ message }}
+                                        </div>
+                                    {% endfor %}  
                             {% endif %}
 
                             <div class="row">

@@ -1,5 +1,5 @@
 from django.urls import path
-from core.views import index_view, login_view, contact_view, logout_view, contact_list, contact_details, delete_contact
+from core.views import index_view, login_view, contact_view, logout_view, contact_list, contact_details, delete_contact, register_agent, agent_list, update_agent
 
 urlpatterns = [
     path('', index_view, name="home"),
@@ -10,5 +10,8 @@ urlpatterns = [
     path('contacts/<int:contact_id>/', contact_details, name='contact_details'),
     path('contacts/<int:contact_id>/delete/',
          delete_contact, name='delete_contact'),
+    path('register-agent/', register_agent, name='register_agent'),
+    path('agent-list/', agent_list, name='agent_list'),
+    path('update-agent/<int:agent_id>/', update_agent, name='update_agent'),
 
 ]

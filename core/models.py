@@ -45,13 +45,16 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=75)
-    phone_number = models.PositiveIntegerField(max_length=12)
+    phone_number = models.PositiveIntegerField()
     address = models.CharField(max_length=350, null=True, blank=True)
     profile_image = models.ImageField(
         upload_to="profile/", null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     user_role = models.CharField(choices=USER_ROLE, max_length=50)
+    is_agent = models.BooleanField(null=True, blank=True)
+    parent_id = models.IntegerField(null=True, blank=True)
+    active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
 
     objects = CustomUserManager()
@@ -87,4 +90,5 @@ class Contact(models.Model):
     subject = models.CharField(max_length=250, null=True, blank=True)
     phone_number = models.CharField(max_length=12)
     message = models.TextField()
-    created_at = models.DateTimeField(auto_now=True)
+    is_seen = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)

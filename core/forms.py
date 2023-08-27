@@ -1,5 +1,8 @@
 from django import forms
-from core.models import Contact
+from core.models import Contact, CustomUser
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class LoginForm(forms.Form):
@@ -12,4 +15,46 @@ class ContactForm(forms.ModelForm):
         model = Contact
         fields = ['name', 'email', 'subject', 'phone_number', 'message']
 
-    # phone_number = forms.IntegerField()
+
+class AgentRegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'name', 'phone_number', 'address', 'profile_image']
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+
+        if password and confirm_password and password != confirm_password:
+            raise forms.ValidationError("Passwords do not match.")
+
+        return confirm_password
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("User with this email already exists.")
+        return email
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+
+
+class AgentUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['name', 'email', 'phone_number',
+                  'address', 'profile_image', 'active']
+
+    def save(self, commit=True):
+        agent = super().save(commit=False)
+        if commit:
+            agent.save()
+        return agent
