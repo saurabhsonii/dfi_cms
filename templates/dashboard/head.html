@@ -541,8 +541,7 @@
                         role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true"
                         aria-expanded="false" data-bs-offset="0,0">
                         <div class="avatar avatar-circle avatar-sm avatar-online">
-                            {% if user.profile_image %}
-                            <img src="{{ user.profile_image.url }}"
+                            <img src="{% static 'assets/images/avtar.jpg' %}"
                                 alt="..." class="avatar-img" width="40" height="40">
                                 {% endif %}
                         </div>
@@ -552,14 +551,15 @@
                         <div class="dropdown-item-text">
                             <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm avatar-circle">
-                                    {% if user.profile_image %}
-                                    <img src="{{ user.profile_image.url }}"
+                                    <img src="{% static 'assets/images/avtar.jpg' %}"
                                         alt="..." class="avatar-img" width="40" height="40">
                                        {% endif %} 
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h4 class="mb-0">{{ user.name }}</h4>
-                                    <p class="card-text">{{ user.email }}</p>
+                                    <span class="badge text-bg-success-soft fs-5 fw-bold mb-n1">
+                                        {{ user.user_role }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
