@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import LoginForm, ContactForm, AgentRegistrationForm, AgentUpdateForm
+from .forms import LoginForm, ContactForm, AgentRegistrationForm, AgentUpdateForm, VehicleDetailsForm
 from django.contrib.auth import logout
 from .models import Contact, CustomUser
 # Create your views here.
@@ -128,3 +128,32 @@ def update_agent(request, agent_id):
         form = AgentUpdateForm(instance=agent)
 
     return render(request, 'dashboard/update-agent.html', {'form': form, 'agent': agent})
+
+
+# -----------------------applicant ----------------------------------------------------------------------------
+
+def applicantfrom(request):
+
+    return render(request, "dashboard/applicant-form.html")
+
+# /------------------------------------------vehicle--------------------------------
+
+
+def create_vehicle(request):
+    if request.method == 'POST':
+        form = VehicleDetailsForm(request.POST)
+        if form.is_valid():
+            form.save(user=request.user)
+            messages.success(
+                request, 'Vehicle details were successfully saved.')
+            return redirect('success_page')
+        else:
+            messages.error(
+                request, 'There was an error in the form submission.')
+    else:
+        form = VehicleDetailsForm()
+
+    return render(request, 'create_vehicle.html', {'form': form})
+
+
+

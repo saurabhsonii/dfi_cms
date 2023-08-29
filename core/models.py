@@ -92,3 +92,89 @@ class Contact(models.Model):
     message = models.TextField()
     is_seen = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class VehicleDetails(models.Model):
+    parent_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    vehicle_type = models.CharField(max_length=150)
+    vehicle_name = models.CharField(max_length=150)
+    vehicle_model = models.CharField(max_length=250)
+    vehicle_number = models.CharField(max_length=150)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+TITLE = [
+    ("mr", "MR"),
+    ("mrs", "MRS"),
+    ("other", "OTHER"),
+]
+
+
+class State(models.Model):
+    state_name = models.CharField(max_length=150)
+    state_code = models.CharField(max_length=150)
+
+
+class PersonalDetails(models.Model):
+    title = models.CharField(max_length=150, choices=TITLE)
+    applicant_name = models.CharField(max_length=150)
+    father_name = models.CharField(max_length=150)
+    mother_name = models.CharField(max_length=150, blank=True, null=True)
+    applicant_email = models.EmailField(blank=True, null=True)
+    contact = models.CharField(max_length=15)
+    address = models.CharField(max_length=350)
+    city = models.CharField(max_length=50)
+    state = models.ForeignKey(State, on_delete=models.CASCADE)
+    county = models.CharField(max_length=150, default="INDIA")
+    vehicle_id = models.ForeignKey(VehicleDetails, on_delete=models.CASCADE)
+    pincode = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class OccupationDetails(models.Model):
+    appcant = models.ForeignKey(PersonalDetails, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class VehicleDocuments(models.Model):
+    appcant = models.ForeignKey(PersonalDetails, on_delete=models.CASCADE)
+    rc_card = models.FileField(upload_to="VehicleDocuments/")
+    insurance = models.FileField(upload_to="VehicleDocuments/")
+    form_29_30 = models.FileField(upload_to="VehicleDocuments/")
+    form_34_35 = models.FileField(upload_to="VehicleDocuments/")
+    bank_noc = models.FileField(upload_to="VehicleDocuments/")
+    rto_noc = models.FileField(upload_to="VehicleDocuments/")
+    form_28 = models.FileField(upload_to="VehicleDocuments/")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+DURATION = [
+    ("24 month", "24"),
+    ("36 month", "36"),
+    ("48 month", "48"),
+    ("60 month", "60"),
+]
+
+
+class Disbrement(models.Model):
+    bank_name = models.CharField(max_length=150)
+    loan_amount = models.CharField(max_length=15)
+    net_amount = models.CharField(max_length=15)
+    emi_duration = models.CharField(max_length=50, choices=DURATION)
+    status = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class ApplicantDocuments(models.Model):
+    appcant_id = models.ForeignKey(
+        PersonalDetails, on_delete=models.CASCADE, null=True, blank=True)
+    Occupation_id = models.ForeignKey(
+        OccupationDetails, on_delete=models.CASCADE)
+    document_name = models.CharField(max_length=150)
+    document_image = models.FileField(upload_to="applicant-details/")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image for {self.document_name}"
