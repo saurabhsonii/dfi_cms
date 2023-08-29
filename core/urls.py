@@ -1,5 +1,5 @@
 from django.urls import path
-from core.views import index_view, login_view, contact_view, logout_view, contact_list, contact_details, delete_contact, register_agent, agent_list, update_agent
+from core.views import index_view, login_view, contact_view, logout_view, contact_list, contact_details, delete_contact, register_agent, agent_list, update_agent, applicantfrom, create_vehicle
 
 urlpatterns = [
     path('', index_view, name="home"),
@@ -13,5 +13,13 @@ urlpatterns = [
     path('register-agent/', register_agent, name='register_agent'),
     path('agent-list/', agent_list, name='agent_list'),
     path('update-agent/<int:agent_id>/', update_agent, name='update_agent'),
+
+    # applicant----------------------------
+    path('applicant-form/', applicantfrom, name='applicant-form'),
+
+    # vehicle------------------------------
+    path('create/', create_vehicle, name='create_vehicle'),
+    # 
+    
 
 ]

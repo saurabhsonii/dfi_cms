@@ -1,5 +1,5 @@
 from django import forms
-from core.models import Contact, CustomUser
+from core.models import Contact, CustomUser, VehicleDetails
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -58,3 +58,17 @@ class AgentUpdateForm(forms.ModelForm):
         if commit:
             agent.save()
         return agent
+
+
+
+class VehicleDetailsForm(forms.ModelForm):
+    class Meta:
+        model = VehicleDetails
+        exclude = ['parent_id']  # Exclude parent_id field from the form
+
+    def save(self, user, commit=True):
+        instance = super().save(commit=False)
+        instance.parent_id = user  # Set the parent_id to the current user
+        if commit:
+            instance.save()
+        return instance
