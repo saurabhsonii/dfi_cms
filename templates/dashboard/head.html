@@ -172,15 +172,15 @@
 
             <!-- Brand -->
             <a class="navbar-brand" href="index.html">
-                <img src="https://d33wubrfki0l68.cloudfront.net/33193ecc0db7caa7d7efee3dca8af1b145fa2135/16978/assets/images/logo-small.svg"
-                    class="navbar-brand-img logo-light logo-small" alt="..." width="19" height="25">
-                <img src="https://d33wubrfki0l68.cloudfront.net/ba6b91b7d508187d153e48318c22d0773a9cedfc/36afa/assets/images/logo.svg"
-                    class="navbar-brand-img logo-light logo-large" alt="..." width="125" height="25">
+                <img src="{% static 'assets/images/logo.png' %}"
+                    class="navbar-brand-img logo-light logo-small" alt="..." width="19" height="40">
+                <img src="{% static 'assets/images/logo.png' %}"
+                    class="navbar-brand-img logo-light logo-large" alt="..." width="125" height="40">
 
-                <img src="https://d33wubrfki0l68.cloudfront.net/8b6c92837e3b7aa8c9017d33298ead6b9b859d79/fa79b/assets/images/logo-dark-small.svg"
-                    class="navbar-brand-img logo-dark logo-small" alt="..." width="19" height="25">
-                <img src="https://d33wubrfki0l68.cloudfront.net/55307694d1a6b107d2d87c838a1aaede85cd3d84/66f18/assets/images/logo-dark.svg"
-                    class="navbar-brand-img logo-dark logo-large" alt="..." width="125" height="25">
+                <img src="{% static 'assets/images/logo.png' %}"
+                    class="navbar-brand-img logo-dark logo-small" alt="..." width="19" height="40">
+                <img src="{% static 'assets/images/logo.png' %}"
+                    class="navbar-brand-img logo-dark logo-large" alt="..." width="125" height="40">
             </a>
 
             <!-- Navbar toggler -->
@@ -207,7 +207,7 @@
                                     stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="1.5" />
                             </svg>
-                            <span>Dashboar</span>
+                            <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -577,14 +577,8 @@
             </div>
         </header>
 
-
-
         {% block content %} {% endblock %}
 
-
-
-
-        <!-- Footer-->
         <!-- Footer -->
         <footer class="mt-auto">
             <div class="container-fluid mt-4 mb-6 text-muted">
