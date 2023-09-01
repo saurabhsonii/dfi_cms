@@ -45,7 +45,7 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=75)
-    phone_number = models.PositiveIntegerField()
+    phone_number = models.PositiveIntegerField(null=True, blank=True)
     address = models.CharField(max_length=350, null=True, blank=True)
     profile_image = models.ImageField(
         upload_to="profile/", null=True, blank=True)
@@ -95,7 +95,8 @@ class Contact(models.Model):
 
 
 class VehicleDetails(models.Model):
-    parent_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    parent_id = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, null=True)
     vehicle_type = models.CharField(max_length=150)
     vehicle_name = models.CharField(max_length=150)
     vehicle_model = models.CharField(max_length=250)
@@ -139,7 +140,8 @@ class OccupationDetails(models.Model):
 
 
 class VehicleDocuments(models.Model):
-    appcant = models.ForeignKey(PersonalDetails, on_delete=models.CASCADE)
+    appcant = models.ForeignKey(
+        OccupationDetails, on_delete=models.CASCADE, null=True)
     rc_card = models.FileField(upload_to="VehicleDocuments/")
     insurance = models.FileField(upload_to="VehicleDocuments/")
     form_29_30 = models.FileField(upload_to="VehicleDocuments/")

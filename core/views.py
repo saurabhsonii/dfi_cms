@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import LoginForm, ContactForm, AgentRegistrationForm, AgentUpdateForm, VehicleDetailsForm
+from .forms import LoginForm, ContactForm, AgentRegistrationForm, AgentUpdateForm, VehicleDetailsForm, PersonalDetailsForm
 from django.contrib.auth import logout
 from .models import Contact, CustomUser
+from formtools.wizard.views import SessionWizardView
+
 # Create your views here.
 
 
@@ -139,21 +141,47 @@ def applicantfrom(request):
 # /------------------------------------------vehicle--------------------------------
 
 
-def create_vehicle(request):
-    if request.method == 'POST':
-        form = VehicleDetailsForm(request.POST)
-        if form.is_valid():
-            form.save(user=request.user)
-            messages.success(
-                request, 'Vehicle details were successfully saved.')
-            return redirect('success_page')
+def ShowStepForm(request):
+    return render(request, "dashboard/applicant-form.html")
+
+
+class MyWizardView(SessionWizardView):
+    template_name = 'dashboard/applicant-form.html'
+
+    # Generate the form list dynamically based on your models
+    form_list = [
+        ('step1', VehicleDetailsForm),
+        ('step2', PersonalDetailsForm),
+    ]
+
+    def done(self, form_list, **kwargs):
+        # Handle form submission here, save data to the database, etc.
+        # form_list contains the form instances for each step.
+        vehicle_details_form, personal_details_form = form_list
+
+        if vehicle_details_form.is_valid() and personal_details_form.is_valid():
+            vehicle_details_instance = vehicle_details_form.save(commit=False)
+            vehicle_details_instance.parent_id = self.request.user
+            vehicle_details_instance.save()
+            print("wsd")
+
+            personal_details_instance = personal_details_form.save(
+                commit=False)
+
+            # Link PersonalDetails to VehicleDetails
+            personal_details_instance.vehicle_id = vehicle_details_instance
+            personal_details_instance.save()
+            print("wd")
+
+            return render(self.request, 'dashboard/applicant-form.html', {
+                'vehicle_details_instance': vehicle_details_instance,
+                'personal_details_instance': personal_details_instance,
+            })
         else:
-            messages.error(
-                request, 'There was an error in the form submission.')
-    else:
-        form = VehicleDetailsForm()
-
-    return render(request, 'create_vehicle.html', {'form': form})
-
-
-
+            # Handle form validation errors
+            # You can render the form errors or redirect to the previous step
+            # based on your application's requirements.
+            def get(self, *args, **kwargs):
+                # Handle GET request, typically for displaying the form
+                self.storage.reset()  # Reset the form wizard's storage
+                return super().get(*args, **kwargs)

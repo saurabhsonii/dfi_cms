@@ -1,5 +1,5 @@
 from django import forms
-from core.models import Contact, CustomUser, VehicleDetails
+from core.models import Contact, CustomUser, VehicleDetails, PersonalDetails, OccupationDetails
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -60,15 +60,35 @@ class AgentUpdateForm(forms.ModelForm):
         return agent
 
 
+# =========================================================================
 
 class VehicleDetailsForm(forms.ModelForm):
     class Meta:
         model = VehicleDetails
-        exclude = ['parent_id']  # Exclude parent_id field from the form
+        fields = "__all__"
+        exclude = ['created_at', 'updated_at', 'parent_id']
 
-    def save(self, user, commit=True):
-        instance = super().save(commit=False)
-        instance.parent_id = user  # Set the parent_id to the current user
-        if commit:
-            instance.save()
-        return instance
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.required = False
+
+
+class PersonalDetailsForm(forms.ModelForm):
+    class Meta:
+        model = PersonalDetails
+        fields = "__all__"
+        exclude = ['created_at', 'updated_at', 'vehicle_id']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.required = False
+
+
+# class OccupationDetails(forms.ModelForm):
+#     class Meta:
+#         model = OccupationDetails
+#         fields = "__all__"
+#         exclude = ['created_at', 'updated_at', 'vehicle_id']
+
