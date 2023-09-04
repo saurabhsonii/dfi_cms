@@ -135,7 +135,7 @@ def update_agent(request, agent_id):
 # -----------------------applicant ----------------------------------------------------------------------------
 
 def applicantfrom(request):
-
+ 
     return render(request, "dashboard/applicant-form.html")
 
 # /------------------------------------------vehicle--------------------------------

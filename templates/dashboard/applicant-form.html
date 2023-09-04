@@ -4,7 +4,11 @@
 {% load widget_tweaks %}
 {% block content %}
 
-
+<style>
+    #wizard-tab{
+        pointer-events: none;
+    }
+</style>
 
  <div class="container-fluid">
 
@@ -34,12 +38,12 @@
                             <ul class="nav nav-pills steps mb-7 mt-n3 w-75 w-xxl-50 mx-auto" id="wizard-tab" role="tablist">
 
                                 <li class="nav-item" role="presentation">
-                                    <button class={% if wizard.steps.step1 == 1 %} "nav-link active"   {% else %} "nav-link" {% endif %}  id="wizardTabOne" data-bs-toggle="pill" data-bs-target="#wizardStepOne" type="button" role="tab" aria-controls="wizardStepOne" aria-selected="true">
+                                    <button class="nav-link active"  id="wizardTabOne" data-bs-toggle="pill" data-bs-target="#wizardStepOne" type="button" role="tab" aria-controls="wizardStepOne" aria-selected="true">
                                         1
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class={% if wizard.steps.step1 == 2 %} "nav-link active"   {% else %} "nav-link" {% endif %} id="wizardTabTwo" data-bs-toggle="pill" data-bs-target="#wizardStepTwo" type="button" role="tab" aria-controls="wizardStepTwo"  aria-selected={% if wizard.steps.step2 == 2 %} "true"   {% else %} "false" {% endif %}>
+                                    <button class="nav-link" id="wizardTabTwo" data-bs-toggle="pill" data-bs-target="#wizardStepTwo" type="button" role="tab" aria-controls="wizardStepTwo"  aria-selected={% if wizard.steps.step2 == 2 %} "true"   {% else %} "false" {% endif %}>
                                         2
                                     </button>
                                 </li>
@@ -52,7 +56,7 @@
 
                             <div class="tab-content" id="wizard-tabContent">
 
-                                <div class="tab-pane fade show active" id="wizardStepOne" role="tabpanel" aria-labelledby="wizardTabOne">
+                                <div class="tab-pane fade" id="wizardStepOne" role="tabpanel" aria-labelledby="wizardTabOne">
                                     
                                     <!-- Card -->
                                     <div class="card border-0 py-6 px-md-12">
@@ -68,7 +72,7 @@
                                                 <div class="row">
                                                     <div class="col-md">
                                                         <label for="projectName" class="form-label">Vehicle Type</label>
-                                                         {% render_field form.vehicle_type class="form-control" placeholder="Your your vehicle name"%}
+                                                         {% render_field form.vehicle_type class="form-control" value= placeholder="Your your vehicle name"%}
                                                         {% comment %} {% render_field wizard.form.vehicle_type class="form-control" placeholder="Your your vehicle name" %} {% endcomment %}
                                                         {% comment %} <input type="text" class="form-control" id="projectName" placeholder="Your project name" required> {% endcomment %}
                                                         <div class="invalid-feedback">Please add your project name</div>
@@ -268,20 +272,21 @@
 
                                                 <!-- Button -->
                                                 {% comment %} {% if wizard.steps.prev %}
-                                                    <button name="wizard_goto_step" type="submit" data-toggle="wizard" class="btn btn-primary" value="{{ wizard.steps.first }}">First Step</button>
-                                                    <button name="wizard_goto_step" type="submit" data-toggle="wizard" class="btn btn-primary" value="{{ wizard.steps.prev }}">Previous Step</button>
+                                                
+                                                    <button name="wizard_goto_step" type="submit" data-toggle="wizard" class="btn btn-primary ms-md-4"  value="{{ wizard.steps.first }}">First Step</button>
+                                                    <button name="wizard_goto_step" type="submit" data-toggle="wizard" class="btn btn-primary ms-md-4" value="{{ wizard.steps.prev }}">Previous Step</button>
                                                 {% endif %} {% endcomment %}
 
-                                                {% comment %} <input type="submit" value="submit"/> {% endcomment %}
+                                                {% comment %} <input class="btn btn-primary ms-md-4" type="submit" value="submit"/> {% endcomment %}
 
                                                 {% if wizard.steps.prev %}
-                                                            <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}"> first step</button>
-                                                            <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">prev step</button>
+                                                            <button name="wizard_goto_step" class="btn btn-primary ms-md-4" type="submit" value="{{ wizard.steps.first }}"> first step</button>
+                                                            <button name="wizard_goto_step" class="btn btn-primary ms-md-4" type="submit" value="{{ wizard.steps.prev }}">prev step</button>
                                                             {% endif %}
-                                                <input type="submit" value="submit"/>
+                                                <input type="submit" class="btn btn-primary ms-md-4" value="submit"/>
 
-                                                 {% comment %} <button name="wizard_goto_step" type="submit" data-toggle="wizard" class="btn btn-primary" value="submit">Submit</button> {% endcomment %}
-                                                {% comment %} <a class="btn btn-primary" data-toggle="wizard" href="#wizardStepTwo">Next</a> {% endcomment %}
+                                                 {% comment %} <button name="wizard_goto_step" type="submit" data-toggle="wizard" class="btn btn-primary ms-md-4" value="submit">Submit</button> {% endcomment %}
+                                                {% comment %} <a class="btn btn-primary ms-md-4" data-toggle="wizard" href="#wizardStepTwo">Next</a> {% endcomment %}
                                             </div>
                                         </div>
 
@@ -293,14 +298,35 @@
                     
                     </div>
                 </div> <!-- / .row -->
-            </div> <!-- / .container-fluid -->
+            </div> <!-- / .container-fluid -->      
+       <script>
+        var steps = "{{wizard.steps.step1}}";
+        if(steps == 1 ){
+            var e = document.getElementById('wizardTabOne');
+            e.classList.add("active");
 
-        {% if wizard.steps.step1 == 1 %} "nav-link active"   
-         <script>
-            
+            e = document.getElementById('wizardStepOne');
+            e.classList.add("active");
+            e.classList.add("show");
+        }
+        if(steps == 2 ){
+            var e = document.getElementById('wizardTabOne');
+            e.classList.remove("active");
 
-        </script> 
-        {% endif %}
-       
-       
+            e = document.getElementById('wizardTabTwo');
+            e.classList.add("active");
+
+            var f = document.getElementById('wizardStepTwo');
+            f.classList.add("active");
+            f.classList.add("show");
+        }
+        if(steps == 3 ){
+            const e = document.getElementById('wizardTabThree');
+            e.classList.add("active");
+
+            const f = document.getElementById('wizardStepThree');
+            f.classList.add("active");
+            f.classList.add("show");
+        }
+</script>
             {% endblock %}
