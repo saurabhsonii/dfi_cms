@@ -1,5 +1,5 @@
 from django import forms
-from core.models import Contact, CustomUser, VehicleDetails, PersonalDetails, OccupationDetails
+from core.models import Contact, CustomUser, VehicleDetails, PersonalDetails, OccupationDetails, ApplicantDocuments
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -86,9 +86,19 @@ class PersonalDetailsForm(forms.ModelForm):
             field.required = False
 
 
-# class OccupationDetails(forms.ModelForm):
-#     class Meta:
-#         model = OccupationDetails
-#         fields = "__all__"
-#         exclude = ['created_at', 'updated_at', 'vehicle_id']
+class OccupationDetailsForm(forms.ModelForm):
+    class Meta:
+        model = OccupationDetails
+        fields = "__all__"
+        exclude = ['created_at', 'updated_at', 'vehicle_id']
 
+
+# class ApplicantDocumentsForm(forms.ModelForm):
+#     class Meta:
+#         model = ApplicantDocuments
+#         fields = "__all__"
+#         exclude = ['appcant_id', 'Occupation_id', 'created_at']
+class ApplicantDocumentsForm(forms.ModelForm):
+    class Meta:
+        model = ApplicantDocuments
+        fields = [ 'document_image',]

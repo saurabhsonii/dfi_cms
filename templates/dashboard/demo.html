@@ -1,48 +1,27 @@
 {% load static %}
-{% load widget_tweaks %}
+
 <html>
 <head></head>
 <body>
     <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
 
-    <form action="" method="post">
-        {% csrf_token %}
-        <table>
-            {{ wizard.management_form }}
-
-                <tr>
-                    <td>
-                        <label for="{{ wizard.form.vehicle_type.id_for_label }}">{{ wizard.form.vehicle_type.label }}</label>
-                    </td>
-                    <td>
-                            {% render_field form.vehicle_type class="form-control" %}
-                            {% render_field form.vehicle_name class="form-control" %}
-                            {% render_field form.vehicle_model class="form-control" %}
-                            {% render_field form.vehicle_number class="form-control" %}
-
-
-                            {% render_field form.title class="form-control" %}
-                            {% render_field form.applicant_name class="form-control" %}
-                            {% render_field form.father_name class="form-control" %}
-                            {% render_field form.mother_name class="form-control" %}
-                            {% render_field form.applicant_email class="form-control" %}
-                            {% render_field form.contact class="form-control" %}
-                            {% render_field form.address class="form-control" %}
-                            {% render_field form.city class="form-control" %}
-                            {% render_field form.state class="form-control" %}
-                            {% render_field form.county class="form-control" %}
-                            {% render_field form.pincode class="form-control" %}
-
-
-                    </td>
-                </tr>
-            {% comment %} {% endif %} {% endcomment %}
-        </table>
-        {% if wizard.steps.prev %}
-            <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">First Step</button>
-            <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Previous Step</button>
-        {% endif %}
-        <input type="submit" value="Submit" class="btn btn-primary">
-    </form>
+  <form action="" method="post">{% csrf_token %}
+<table>
+{{ wizard.management_form }}
+{% if wizard.form.forms %}
+    {{ wizard.form.management_form }}
+    {% for form in wizard.form.forms %}
+        {{ form.as_table }}
+    {% endfor %}
+{% else %}
+    {{ wizard.form }}
+{% endif %}
+</table>
+{% if wizard.steps.prev %}
+<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">first step</button>
+<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">prev step</button>
+{% endif %}
+<input type="submit" value="submit"/>
+</form>
 </body>
 </html>

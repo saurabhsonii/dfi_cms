@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import LoginForm, ContactForm, AgentRegistrationForm, AgentUpdateForm, VehicleDetailsForm, PersonalDetailsForm
+from .forms import LoginForm, ContactForm, AgentRegistrationForm, AgentUpdateForm, VehicleDetailsForm, PersonalDetailsForm, ApplicantDocumentsForm
 from django.contrib.auth import logout
-from .models import Contact, CustomUser
+from .models import Contact, CustomUser, OccupationDetails, DocumentImages
+from django.core.files.storage import FileSystemStorage
 from formtools.wizard.views import SessionWizardView
 
 # Create your views here.
@@ -142,28 +143,30 @@ def applicantfrom(request):
 
 
 def ShowStepForm(request):
-    return render(request, "dashboard/applicant-form.html")
+    return render(request, "dashboard/demo.html")
 
 
 class MyWizardView(SessionWizardView):
-    template_name = 'dashboard/applicant-form.html'
+    template_name = 'dashboard/demo.html'
+    file_storage = FileSystemStorage(location='media/folder')
 
     # Generate the form list dynamically based on your models
     form_list = [
         ('step1', VehicleDetailsForm),
         ('step2', PersonalDetailsForm),
+        ('step3', ApplicantDocumentsForm),
+
     ]
 
     def done(self, form_list, **kwargs):
         # Handle form submission here, save data to the database, etc.
         # form_list contains the form instances for each step.
-        vehicle_details_form, personal_details_form = form_list
+        vehicle_details_form, personal_details_form, applicantDocumentsForm = form_list
 
-        if vehicle_details_form.is_valid() and personal_details_form.is_valid():
+        if vehicle_details_form.is_valid() and personal_details_form.is_valid() and applicantDocumentsForm.is_valid():
             vehicle_details_instance = vehicle_details_form.save(commit=False)
             vehicle_details_instance.parent_id = self.request.user
             vehicle_details_instance.save()
-            print("wsd")
 
             personal_details_instance = personal_details_form.save(
                 commit=False)
@@ -171,11 +174,23 @@ class MyWizardView(SessionWizardView):
             # Link PersonalDetails to VehicleDetails
             personal_details_instance.vehicle_id = vehicle_details_instance
             personal_details_instance.save()
-            print("wd")
 
-            return render(self.request, 'dashboard/applicant-form.html', {
+            # Create or get OccupationDetails
+            occupation_details, created = OccupationDetails.objects.get_or_create(
+                applicant=personal_details_instance)
+
+            # Save the applicant documents
+
+            applicant_documents_instance = applicantDocumentsForm.save(
+                commit=False)
+            applicant_documents_instance.appcant_id = personal_details_instance
+            applicant_documents_instance.Occupation_id = occupation_details
+            applicant_documents_instance.save()
+
+            return render(self.request, 'dashboard/demo.html', {
                 'vehicle_details_instance': vehicle_details_instance,
                 'personal_details_instance': personal_details_instance,
+                'applicant_documents_instance': applicant_documents_instance,
             })
         else:
             # Handle form validation errors

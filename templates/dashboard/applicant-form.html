@@ -34,12 +34,12 @@
                             <ul class="nav nav-pills steps mb-7 mt-n3 w-75 w-xxl-50 mx-auto" id="wizard-tab" role="tablist">
 
                                 <li class="nav-item" role="presentation">
-                                    <button class={% if wizard.steps.step1 == 1 %} "nav-link active"   {% else %} "nav-link" {% endif %}  id="wizardTabOne" data-bs-toggle="pill" data-bs-target="#wizardStepOne" type="button" role="tab" aria-controls="wizardStepOne" aria-selected="true">
+                                    <button class="nav-link active"  id="wizardTabOne" data-bs-toggle="pill" data-bs-target="#wizardStepOne" type="button" role="tab" aria-controls="wizardStepOne" aria-selected="true">
                                         1
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class={% if wizard.steps.step1 == 2 %} "nav-link active"   {% else %} "nav-link" {% endif %} id="wizardTabTwo" data-bs-toggle="pill" data-bs-target="#wizardStepTwo" type="button" role="tab" aria-controls="wizardStepTwo"  aria-selected={% if wizard.steps.step2 == 2 %} "true"   {% else %} "false" {% endif %}>
+                                    <button class="nav-link" id="wizardTabTwo" data-bs-toggle="pill" data-bs-target="#wizardStepTwo" type="button" role="tab" aria-controls="wizardStepTwo"  aria-selected="false">
                                         2
                                     </button>
                                 </li>
@@ -295,11 +295,16 @@
                 </div> <!-- / .row -->
             </div> <!-- / .container-fluid -->
 
-        {% if wizard.steps.step1 == 1 %} "nav-link active"   
-         <script>
-            
+        {% if wizard.steps.step1 == 2 %}    
+        <script>
+        function performActionOnClick() {
+            // Replace this with the action you want to perform
+            alert('Button Clicked!'); // Example: Show an alert
+            }
 
-        </script> 
+            // Add a click event listener to the button
+            document.getElementById('triggerButton').addEventListener('click', performActionOnClick);
+        </script>
         {% endif %}
        
        

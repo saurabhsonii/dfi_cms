@@ -1,7 +1,7 @@
 from django.urls import path
 from core.views import index_view, login_view, contact_view, logout_view, contact_list, contact_details, delete_contact, register_agent, agent_list, update_agent, applicantfrom
 from core.views import MyWizardView
-from .forms import PersonalDetailsForm, VehicleDetailsForm
+from .forms import PersonalDetailsForm, VehicleDetailsForm, ApplicantDocumentsForm
 
 
 urlpatterns = [
@@ -20,7 +20,7 @@ urlpatterns = [
     # applicant----------------------------
     path('applicant-form/', applicantfrom, name='applicant-form'),
     path('form/', MyWizardView.as_view([VehicleDetailsForm,
-         PersonalDetailsForm]), name='my_wizard_view'),
+         PersonalDetailsForm, ApplicantDocumentsForm]), name='my_wizard_view'),
 
 
 

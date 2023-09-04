@@ -135,7 +135,7 @@ class PersonalDetails(models.Model):
 
 
 class OccupationDetails(models.Model):
-    appcant = models.ForeignKey(PersonalDetails, on_delete=models.CASCADE)
+    applicant = models.ForeignKey(PersonalDetails, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -169,14 +169,18 @@ class Disbrement(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class DocumentImages(models.Model):
+    name = models.CharField(max_length=250, null=True, blank=True)
+    image = models.FileField(upload_to="applicant-details/")
+
+
 class ApplicantDocuments(models.Model):
     appcant_id = models.ForeignKey(
         PersonalDetails, on_delete=models.CASCADE, null=True, blank=True)
     Occupation_id = models.ForeignKey(
         OccupationDetails, on_delete=models.CASCADE)
-    document_name = models.CharField(max_length=150)
-    document_image = models.FileField(upload_to="applicant-details/")
+    document_image = models.ManyToManyField(DocumentImages)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"Image for {self.document_name}"
+    # def __str__(self):
+    #     return f"Image for {self.document_name}"
