@@ -2,11 +2,13 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import LoginForm, ContactForm, AgentRegistrationForm, AgentUpdateForm, VehicleDetailsForm, PersonalDetailsForm, ApplicantDocumentsForm
+from .forms import (LoginForm, ContactForm, AgentRegistrationForm,
+                    AgentUpdateForm, VehicleDetailsForm, PersonalDetailsForm, DocumentImagesForm,
+                    VehicleDocumentsForm, DisbursementForm, OccupationDetailsForm)
 from django.contrib.auth import logout
-from .models import Contact, CustomUser, OccupationDetails, DocumentImages
-from django.core.files.storage import FileSystemStorage
-from formtools.wizard.views import SessionWizardView
+from .models import (Contact, CustomUser, OccupationDetails, DocumentImages,
+                     VehicleDetails, PersonalDetails, State, Disbursement, OccupationDetails, VehicleDocuments)
+
 
 # Create your views here.
 
@@ -142,61 +144,266 @@ def applicantfrom(request):
 # /------------------------------------------vehicle--------------------------------
 
 
-def ShowStepForm(request):
-    return render(request, "dashboard/demo.html")
+def vehicle_details(request):
+    vehicle_type = request.GET.get('type')
+    if request.method == 'POST':
+        vehicle_type = request.GET.get('type')
+        print(vehicle_type)
+        form = VehicleDetailsForm(request.POST)
+        if form.is_valid():
+            vehicle_data = form.cleaned_data
+            vehicle = VehicleDetails(**vehicle_data)
+            vehicle.parent_id = request.user
+            vehicle.vehicle_type = vehicle_type
+            vehicle.save()
+            vehicle_id = vehicle.id
+            request.session['vehicle_data'] = vehicle_id
+
+            return redirect('personal_details')
+    else:
+
+        form = VehicleDetailsForm()
+
+    return render(request, 'dashboard/applicant-form.html', {'form': form, "vehicle_type": vehicle_type})
 
 
-class MyWizardView(SessionWizardView):
-    template_name = 'dashboard/demo.html'
-    file_storage = FileSystemStorage(location='media/folder')
+def personal_details(request):
+    if request.method == 'POST':
+        form = PersonalDetailsForm(request.POST)
+        vehicle_data = request.session.get('vehicle_data', {})
+        vehicle_data = VehicleDetails.objects.get(id=vehicle_data)
+        print(vehicle_data)
 
-    # Generate the form list dynamically based on your models
-    form_list = [
-        ('step1', VehicleDetailsForm),
-        ('step2', PersonalDetailsForm),
-        ('step3', ApplicantDocumentsForm),
+        if form.is_valid():
+            personal_data = form.cleaned_data
+            personal = PersonalDetails(**personal_data)
+            personal.vehicle_id = vehicle_data
+            personal.save()
+            personal = personal.id
 
-    ]
+            # Serialize the 'state' field to a dictionary
+            # state_instance = personal_data['state']
+            # state_dict = {
+            #     'id': state_instance.id,
+            #     'state_name': state_instance.state_name,
+            #     'state_code': state_instance.state_code,
+            # }
+            # personal_data['state'] = state_dict
+            request.session['personal_data'] = personal
+            return redirect('occupation_details')
+    else:
+        form = PersonalDetailsForm()
 
-    def done(self, form_list, **kwargs):
-        # Handle form submission here, save data to the database, etc.
-        # form_list contains the form instances for each step.
-        vehicle_details_form, personal_details_form, applicantDocumentsForm = form_list
+    return render(request, 'dashboard/applicant-form.html', {'form': form})
 
-        if vehicle_details_form.is_valid() and personal_details_form.is_valid() and applicantDocumentsForm.is_valid():
-            vehicle_details_instance = vehicle_details_form.save(commit=False)
-            vehicle_details_instance.parent_id = self.request.user
-            vehicle_details_instance.save()
 
-            personal_details_instance = personal_details_form.save(
-                commit=False)
+def occupation_details(request):
+    if request.method == 'POST':
+        form = DocumentImagesForm(request.POST, request.FILES)
 
-            # Link PersonalDetails to VehicleDetails
-            personal_details_instance.vehicle_id = vehicle_details_instance
-            personal_details_instance.save()
+        if form.is_valid():
 
-            # Create or get OccupationDetails
-            occupation_details, created = OccupationDetails.objects.get_or_create(
-                applicant=personal_details_instance)
+            # Save the uploaded images to your media directory
+            uploaded_images = []
+            for uploaded_file in request.FILES.getlist('image'):
+                document = DocumentImages(
+                    name=uploaded_file.name, image=uploaded_file)
+                document.save()
+                uploaded_images.append(document.image.path)
 
-            # Save the applicant documents
+            # Store the file paths in the session
+            # request.session['uploaded_image_paths'] = uploaded_images
 
-            applicant_documents_instance = applicantDocumentsForm.save(
-                commit=False)
-            applicant_documents_instance.appcant_id = personal_details_instance
-            applicant_documents_instance.Occupation_id = occupation_details
-            applicant_documents_instance.save()
+            # uploaded_image_paths = request.session.get(
+            #     'uploaded_image_paths', [])
+            personal_data = request.session.get('personal_data', {})
+            personal_data = PersonalDetails.objects.get(id=personal_data)
+            applicant_id = personal_data.id
 
-            return render(self.request, 'dashboard/demo.html', {
-                'vehicle_details_instance': vehicle_details_instance,
-                'personal_details_instance': personal_details_instance,
-                'applicant_documents_instance': applicant_documents_instance,
-            })
-        else:
-            # Handle form validation errors
-            # You can render the form errors or redirect to the previous step
-            # based on your application's requirements.
-            def get(self, *args, **kwargs):
-                # Handle GET request, typically for displaying the form
-                self.storage.reset()  # Reset the form wizard's storage
-                return super().get(*args, **kwargs)
+            occupation_data = OccupationDetails.objects.create(
+                applicant_id=applicant_id)
+
+            # Associate uploaded images with the OccupationDetails instance
+            for image_path in uploaded_images:
+                document = DocumentImages(
+                    name=image_path.split('/')[-1], image=image_path)
+                document.save()
+                occupation_data.document_image.add(document)
+
+            return redirect('vehicle_documents')
+    else:
+        form = DocumentImagesForm()
+
+    return render(request, 'dashboard/applicant-form.html', {'form': form})
+
+
+def vehicle_documents(request):
+    if request.method == 'POST':
+        vehicle_documents_form = VehicleDocumentsForm(
+            request.POST, request.FILES)
+        vehicle_data = request.session.get('vehicle_data', {})
+        vehicle_data = VehicleDetails.objects.get(id=vehicle_data)
+
+        if vehicle_documents_form.is_valid():
+            # Handle the VehicleDocuments uploads
+            vehicle_documents = vehicle_documents_form.save(commit=False)
+            vehicle_documents.applicant = vehicle_data
+            vehicle_documents.save()
+
+            # Redirect to confirmation page or another appropriate page
+            return redirect('disbursement')
+
+    else:
+        form = VehicleDocumentsForm()
+
+    return render(request, 'dashboard/applicant-form.html', {'form': form})
+
+
+def disbursement(request):
+    if request.method == 'POST':
+        disbursement_form = DisbursementForm(request.POST)
+        vehicle_data = request.session.get('vehicle_data', {})
+        vehicle_data = VehicleDetails.objects.get(id=vehicle_data)
+
+        if disbursement_form.is_valid():
+            # Process and save the Disbursement data
+            disbursement_data = disbursement_form.save(commit=False)
+            disbursement_data.vehicle_id = vehicle_data
+            # Associate the Disbursement data with the relevant VehicleDetails or OccupationDetails, if needed
+            disbursement_data.save()
+            return redirect('home')
+
+    else:
+        form = DisbursementForm()
+
+    return render(request, 'dashboard/applicant-form.html', {'form': form})
+
+
+def confirmation(request):
+    vehicle_data = request.session.get('vehicle_data', {})
+    personal_data = request.session.get('personal_data', {})
+
+    # You can save the data to the database here if needed
+    vehicle = VehicleDetails(**vehicle_data)
+    vehicle.parent_id = request.user
+    vehicle.save()
+
+    # Deserialize the 'state' field from the dictionary
+    state_data = personal_data.get('state', {})
+
+    # Retrieve the 'State' instance based on the data in the dictionary
+    state_instance = State.objects.get(id=state_data['id'])
+
+    # Create a new 'PersonalDetails' instance with the retrieved 'State' instance
+    personal_details = PersonalDetails(
+        title=personal_data['title'],
+        applicant_name=personal_data['applicant_name'],
+        father_name=personal_data['father_name'],
+        mother_name=personal_data['mother_name'],
+        applicant_email=personal_data['applicant_email'],
+        contact=personal_data['contact'],
+        address=personal_data['address'],
+        city=personal_data['city'],
+        state=state_instance,  # Assign the 'State' instance
+        county=personal_data['county'],
+        pincode=personal_data['pincode'],
+        vehicle_id=vehicle  # Assign the 'VehicleDetails' instance
+    )
+
+    # Save the 'PersonalDetails' instance to the database
+    personal_details.save()
+
+    uploaded_image_paths = request.session.get('uploaded_image_paths', [])
+    applicant_id = personal_details.id
+
+    occupation_data = OccupationDetails.objects.create(
+        applicant_id=applicant_id)
+
+    # Associate uploaded images with the OccupationDetails instance
+    for image_path in uploaded_image_paths:
+        document = DocumentImages(
+            name=image_path.split('/')[-1], image=image_path)
+        document.save()
+        occupation_data.document_image.add(document)
+
+    # Clear the session variable after processing the data
+    request.session['uploaded_image_paths'] = []
+
+    return render(request, 'dashboard/index.html', {'vehicle_data': vehicle_data, 'personal_data': personal_data})
+
+
+def ApplicantView(request):
+    vehicle_data = VehicleDetails.objects.all().order_by("-created_at")
+
+    return render(request, "dashboard/applicant-list.html", {"vehicle_data": vehicle_data})
+
+
+def edit_vehicle(request, vehicle_id):
+    vehicle = get_object_or_404(VehicleDetails, id=vehicle_id)
+    personal_data = get_object_or_404(PersonalDetails, vehicle_id=vehicle_id)
+    occupation_data = get_object_or_404(
+        OccupationDetails, applicant=personal_data)
+    disbursement_data = get_object_or_404(Disbursement, vehicle_id=vehicle_id)
+    VehicleDocuments_data = get_object_or_404(
+        VehicleDocuments, applicant=vehicle_id)
+
+    # Retrieve the associated DocumentImages for the OccupationDetails instance
+    document_images = occupation_data.document_image.all()
+    # get creater name who filled the form
+    creater = get_object_or_404(CustomUser, id=vehicle.parent_id.id)
+
+    if request.method == 'POST':
+        vehicle_form = VehicleDetailsForm(request.POST, instance=vehicle)
+        personal_form = PersonalDetailsForm(
+            request.POST, instance=personal_data)
+        occupation_form = OccupationDetailsForm(
+            request.POST, instance=occupation_data)
+        disbursement_form = DisbursementForm(
+            request.POST, instance=disbursement_data)
+        VehicleDocuments_form = VehicleDocumentsForm(
+            request.POST, request.FILES, instance=VehicleDocuments_data)
+
+        document_form = DocumentImagesForm(request.POST, request.FILES)
+
+        if (
+            vehicle_form.is_valid() and
+            personal_form.is_valid() and
+            occupation_form.is_valid() and
+            disbursement_form.is_valid() and
+            VehicleDocuments_form.is_valid()
+        ):
+            vehicle_form.save()
+            personal_form.save()
+            occupation_form.save()
+            disbursement_form.save()
+            VehicleDocuments_form.save()
+
+            # Handle the document uploads
+            for uploaded_file in request.FILES.getlist('image'):
+                document = DocumentImages(
+                    name=uploaded_file.name, image=uploaded_file)
+                document.save()
+                occupation_data.document_image.add(document)
+
+            # Redirect to the confirmation page after updating the data
+            return redirect('applicants')
+
+    else:
+        vehicle_form = VehicleDetailsForm(instance=vehicle)
+        personal_form = PersonalDetailsForm(instance=personal_data)
+        occupation_form = OccupationDetailsForm(instance=occupation_data)
+        disbursement_form = DisbursementForm(instance=disbursement_data)
+        VehicleDocuments_form = VehicleDocumentsForm(
+            instance=VehicleDocuments_data)
+        document_form = DocumentImagesForm()
+
+    return render(request, 'dashboard/demo2.html', {
+        'vehicle_form': vehicle_form,
+        'personal_form': personal_form,
+        'occupation_form': occupation_form,
+        'disbursement_form': disbursement_form,
+        'vehicleDocuments_form': VehicleDocuments_form,
+        'document_form': document_form,
+        'document_images': document_images,
+        'creater': creater
+    })

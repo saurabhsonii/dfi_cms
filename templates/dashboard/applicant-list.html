@@ -12,16 +12,16 @@
                     
                     <!-- Title -->
                     <h1 class="h2">
-                        Agent
+                        Applicants
                     </h1>
 
                     <!-- Breadcrumb -->
-                    <nav aria-label="breadcrumb">
+                    {% comment %} <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
                             <li class="breadcrumb-item active" aria-current="page">API Keys</li>
                         </ol>
-                    </nav>
+                    </nav> {% endcomment %}
                 </div>
 
                 {% comment %} <div class="alert text-bg-info-soft d-flex align-items-center mb-6" role="alert">
@@ -42,16 +42,19 @@
 
                                     <!-- Title -->
                                     <h2 class="card-header-title h4 text-uppercase">
-                                        Agent
+                                        Applicants
                                     </h2>
 
-                                    <input class="form-control list-fuzzy-search mw-md-300px ms-md-auto mt-5 mt-md-0 mb-3 mb-md-0" type="search" placeholder="Search in keys">
+                                    {% comment %} <input class="form-control list-fuzzy-search mw-md-300px ms-md-auto mt-5 mt-md-0 mb-3 mb-md-0" type="search" placeholder="Search in keys"> {% endcomment %}
 
                                     <!-- Button -->
-                                    <button type="button" class="btn btn-primary ms-md-4" data-bs-toggle="modal" data-bs-target="#createKeyModal">
+                                    {% comment %} <button type="button" class="btn btn-primary ms-md-4" data-bs-toggle="modal" data-bs-target="#createKeyModal">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="14" width="14" class="me-1"><path d="M0,12a1.5,1.5,0,0,0,1.5,1.5h8.75a.25.25,0,0,1,.25.25V22.5a1.5,1.5,0,0,0,3,0V13.75a.25.25,0,0,1,.25-.25H22.5a1.5,1.5,0,0,0,0-3H13.75a.25.25,0,0,1-.25-.25V1.5a1.5,1.5,0,0,0-3,0v8.75a.25.25,0,0,1-.25.25H1.5A1.5,1.5,0,0,0,0,12Z" style="fill: currentColor"/></svg>
                                         Create key
-                                    </button>
+                                    </button> {% endcomment %}
+                                    {% comment %} <button class="btn btn-primary ms-md-4" href="{% url 'vehicle_details' %}" >Add New </button> {% endcomment %}
+                                    <a href="{% url 'vehicle_details' %}" class="btn btn-primary ms-md-4" role="button" aria-pressed="true">Add New</a>
+                                    {% comment %} <a href="{% url 'vehicle_details' %}" >Add New </a> {% endcomment %}
                                 </div>
                                 
                             </div>
@@ -63,22 +66,27 @@
                                         <tr>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    Name
+                                                    parent_id
                                                 </a>
                                             </th>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    Email
+                                                    vehicle_type
                                                 </a>
                                             </th>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted " style="text-align:center;">
-                                                    Active 
+                                                    vehicle_name 
                                                 </a>
                                             </th>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    Email
+                                                    vehicle_model
+                                                </a>
+                                            </th>
+                                             <th>
+                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
+                                                    vehicle_number
                                                 </a>
                                             </th>
                                              
@@ -86,7 +94,7 @@
                                             
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted list-sort" data-sort="created">
-                                                    Created
+                                                    created_at
                                                 </a>
                                             </th>
                                             <th class="text-end">Actions</th>
@@ -95,19 +103,15 @@
 
                                     <tbody class="list">
                                         
-                                        {% for agent in agents %}
+                                        {% for vehicle in vehicle_data %}
                                         <tr>
-                                            <td class="name">{{agent.name}}</td>
-                                            <td class="name">{{agent.email}}</td> 
-                                            {% if agent.active %}      
-                                            <td class="status" data-status="active"><span class="legend-circle bg-success"></span>{{agent.subject}}</td> 
-                                                
-                                            {% else %}           
-                                                <td class="status" data-status="Inactive"><span class="legend-circle bg-warning"></span>{{agent.subject}}</td>
-                                            {% endif %}
-                                            {% comment %} <td class="name">{{contact.message}}</td> {% endcomment %}
-                                             <td class="name">{{agent.phone_number}}</td>
-                                            <td class="created" data-created="1646179200">{{agent.date_joined}}</td>
+                                            <td class="name">{{vehicle.parent_id}}</td>
+                                            <td class="name">{{vehicle.vehicle_type}}</td> 
+                                            
+                                            <td class="name">{{vehicle.vehicle_name}}</td>
+                                             <td class="name">{{vehicle.vehicle_model}}</td>
+                                             <td class="name">{{vehicle.vehicle_number}}</td>
+                                            <td class="created" data-created="1646179200">{{vehicle.created_at}}</td>
                                             <td>
                                                 <!-- Dropdown -->
                                                 <div class="dropdown float-end">
@@ -116,7 +120,7 @@
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <a class="dropdown-item" href="{% url 'update_agent' agent.id %}">
+                                                            <a class="dropdown-item" href="{% url 'edit_vehicle' vehicle.id %}">
                                                                 Details
                                                             </a>
                                                         </li>

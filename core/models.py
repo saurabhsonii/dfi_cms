@@ -104,6 +104,9 @@ class VehicleDetails(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return str(self.vehicle_name)
+
 
 TITLE = [
     ("mr", "MR"),
@@ -115,6 +118,9 @@ TITLE = [
 class State(models.Model):
     state_name = models.CharField(max_length=150)
     state_code = models.CharField(max_length=150)
+
+    def __str__(self):
+        return str(self.state_name)
 
 
 class PersonalDetails(models.Model):
@@ -133,15 +139,25 @@ class PersonalDetails(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return (f' {str(self.applicant_name)} - {str(self.vehicle_id.vehicle_name)} ')
+
+
+class DocumentImages(models.Model):
+    name = models.CharField(max_length=250, null=True, blank=True)
+    image = models.FileField(
+        upload_to="applicant-details/", null=True, blank=True)
+
 
 class OccupationDetails(models.Model):
     applicant = models.ForeignKey(PersonalDetails, on_delete=models.CASCADE)
+    document_image = models.ManyToManyField(DocumentImages)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class VehicleDocuments(models.Model):
-    appcant = models.ForeignKey(
-        OccupationDetails, on_delete=models.CASCADE, null=True)
+    applicant = models.ForeignKey(
+        VehicleDetails, on_delete=models.CASCADE, null=True)
     rc_card = models.FileField(upload_to="VehicleDocuments/")
     insurance = models.FileField(upload_to="VehicleDocuments/")
     form_29_30 = models.FileField(upload_to="VehicleDocuments/")
@@ -160,7 +176,8 @@ DURATION = [
 ]
 
 
-class Disbrement(models.Model):
+class Disbursement(models.Model):
+    vehicle_id = models.ForeignKey(VehicleDetails, on_delete=models.CASCADE)
     bank_name = models.CharField(max_length=150)
     loan_amount = models.CharField(max_length=15)
     net_amount = models.CharField(max_length=15)
@@ -168,19 +185,5 @@ class Disbrement(models.Model):
     status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-
-class DocumentImages(models.Model):
-    name = models.CharField(max_length=250, null=True, blank=True)
-    image = models.FileField(upload_to="applicant-details/")
-
-
-class ApplicantDocuments(models.Model):
-    appcant_id = models.ForeignKey(
-        PersonalDetails, on_delete=models.CASCADE, null=True, blank=True)
-    Occupation_id = models.ForeignKey(
-        OccupationDetails, on_delete=models.CASCADE)
-    document_image = models.ManyToManyField(DocumentImages)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    # def __str__(self):
-    #     return f"Image for {self.document_name}"
+    def __str__(self):
+        return str(self.bank_name)

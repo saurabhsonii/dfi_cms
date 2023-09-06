@@ -1,0 +1,120 @@
+
+{% extends 'dashboard/head.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+ <div class="container-fluid">
+
+                <div class="d-flex align-items-baseline justify-content-between">
+
+                    <!-- Title -->
+                    <h1 class="h2">
+                        Wizard
+                    </h1>
+
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Wizard</li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 col-xl-12 col-xxl-12">
+
+                        {% comment %} <form class="needs-validation" novalidate> {% endcomment %}
+                            <ul class="nav nav-pills steps mb-7 mt-n3 w-75 w-xxl-50 mx-auto" style="pointer-event:none;" id="wizard-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="wizardTabOne" data-bs-toggle="pill" data-bs-target="#wizardStepOne" type="button" role="tab" aria-controls="wizardStepOne" aria-selected="true">
+                                        1
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="wizardTabTwo" data-bs-toggle="pill" data-bs-target="#wizardStepTwo" type="button" role="tab" aria-controls="wizardStepTwo" aria-selected="false">
+                                        2
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="wizardTabThree" data-bs-toggle="pill" data-bs-target="#wizardStepThree" type="button" role="tab" aria-controls="wizardStepThree" aria-selected="false">
+                                        3
+                                    </button>
+                                </li>
+                               
+                            </ul>
+                            <div class="tab-content" id="wizard-tabContent">
+                                <div class="tab-pane fade show active" id="wizardStepOne" role="tabpanel" aria-labelledby="wizardTabOne">
+                                    
+                                    <!-- Card -->
+                                    <div class="card border-0 py-6 px-md-12">
+                                     <form method="post">
+                                        {% csrf_token %}
+                                        <div class="card-body">
+                                          
+                                            <h2 class="text-center mb-0">VehicleDetails</h2>
+                                            <p class="text-secondary text-center">General information about your project</p>
+
+                                            <div class="mb-3">
+                                                <div class="row">
+                                                    <div class="col-md">
+                                                        <label for="projectName" class="form-label">vehicle_type</label>
+                                                        {% render_field form.vehicle_type class="form-control" placeholder="vehicle_type" %}
+                                                        {% comment %} <input type="text" class="form-control" id="projectName" placeholder="Your project name" required> {% endcomment %}
+                                                        <div class="invalid-feedback">Please add your project name</div>
+                                                    </div>
+
+                                                    <div class="col-md">
+                                                        <label for="owner" class="form-label">vehicle_name</label>
+                                                         {% render_field form.vehicle_name class="form-control" placeholder="vehicle_name" %}
+                                                        {% comment %} <input type="text" class="form-control" id="owner" placeholder="Owner's name" required> {% endcomment %}
+                                                        <div class="invalid-feedback">Please add a name</div>
+                                                    </div>
+                                                </div> <!-- / .row -->
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <div class="row">
+                                                    <div class="col-md">
+                                                        <label for="projectName" class="form-label">vehicle_model</label>
+                                                       {% render_field form.vehicle_model class="form-control" placeholder="vehicle_model" %}
+                                                        {% comment %} <input type="text" class="form-control" id="projectName" placeholder="Your project name" required> {% endcomment %}
+                                                        <div class="invalid-feedback">Please add your project name</div>
+                                                    </div>
+
+                                                    <div class="col-md">
+                                                        <label for="owner" class="form-label">vehicle_number</label>
+                                                        {% render_field form.vehicle_number class="form-control" placeholder="vehicle_number" %}
+                                                        {% comment %} <input type="text" class="form-control" id="owner" placeholder="Owner's name" required> {% endcomment %}
+                                                        <div class="invalid-feedback">Please add a name</div>
+                                                    </div>
+                                                </div> <!-- / .row -->
+                                            </div>
+
+                                            
+
+                                          
+                                        </div>
+
+                                        <div class="card-footer">
+                                            <div class="d-flex justify-content-between">
+
+                                                <!-- Button -->
+                                                <button type="button" class="btn btn-light">Cancel</button>
+
+                                                <!-- Button -->
+                                                <button type="submit" class="btn btn-primary">Next</button>
+                                                {% comment %} <input type="submit" value="Next"> {% endcomment %}
+                                                {% comment %} <a class="btn btn-primary" type="submit" data-toggle="wizard">Next</a> {% endcomment %}
+                                            </div>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                        {% comment %} </form> {% endcomment %}
+                    </div>
+                </div> <!-- / .row -->
+            </div> <!-- / .container-fluid -->
+            {% endblock %}

@@ -5,20 +5,22 @@
 <body>
     <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
 
-  <form action="" method="post">{% csrf_token %}
+  <form  method="post" action="{% url 'my_wizard_view' %}">
+    {% csrf_token %}
+    
 <table>
 {{ wizard.management_form }}
-{% if wizard.form.forms %}
+{% comment %} {% if wizard.form.forms %}
     {{ wizard.form.management_form }}
     {% for form in wizard.form.forms %}
         {{ form.as_table }}
     {% endfor %}
-{% else %}
+{% else %} {% endcomment %}
     {{ wizard.form }}
-{% endif %}
+{% comment %} {% endif %} {% endcomment %}
 </table>
 {% if wizard.steps.prev %}
-<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">first step</button>
+{% comment %} <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">first step</button> {% endcomment %}
 <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">prev step</button>
 {% endif %}
 <input type="submit" value="submit"/>

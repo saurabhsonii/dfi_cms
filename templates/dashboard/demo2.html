@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+ <!-- edit_vehicle.html -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <hr>
+    {{ vehicle_form.as_p }}
+    <hr>
+    {{ personal_form.as_p }}
+    <hr>
+    {{ document_form.as_p }}
+    {% comment %} <hr> {% endcomment %}
+    {{ occupation_form.as_p }}
+    <hr><hr>
+    {% for image in document_images %}
+        <img src="{{ image.image.url }}" alt="{{ image.image.url }}" width="100">
+    {% endfor %}
+    <hr><hr>
+    {% comment %} <hr> {% endcomment %}
+    {{ disbursement_form.as_p }}
+    <hr>
+    {{ vehicleDocuments_form.as_p }}
+    
+
+    <input type="submit" name="submit" value="Submit">
+</form>
+    
+</body>
+</html>

@@ -1,6 +1,8 @@
 from django import forms
-from core.models import Contact, CustomUser, VehicleDetails, PersonalDetails, OccupationDetails, ApplicantDocuments
+from core.models import (Contact, CustomUser, VehicleDetails, PersonalDetails,
+                         OccupationDetails, DocumentImages, VehicleDocuments, Disbursement)
 from django.contrib.auth import get_user_model
+
 
 User = get_user_model()
 
@@ -66,12 +68,12 @@ class VehicleDetailsForm(forms.ModelForm):
     class Meta:
         model = VehicleDetails
         fields = "__all__"
-        exclude = ['created_at', 'updated_at', 'parent_id']
+        exclude = ['vehicle_type', 'created_at', 'updated_at', 'parent_id']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.required = False
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     for field in self.fields.values():
+    #         field.required = False
 
 
 class PersonalDetailsForm(forms.ModelForm):
@@ -80,25 +82,51 @@ class PersonalDetailsForm(forms.ModelForm):
         fields = "__all__"
         exclude = ['created_at', 'updated_at', 'vehicle_id']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.required = False
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     for field in self.fields.values():
+    #         field.required = False
+
+
+class DocumentImagesForm(forms.ModelForm):
+    class Meta:
+        model = DocumentImages
+        fields = ['image',]
+
+    image = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
 
 
 class OccupationDetailsForm(forms.ModelForm):
     class Meta:
         model = OccupationDetails
-        fields = "__all__"
-        exclude = ['created_at', 'updated_at', 'vehicle_id']
+        fields = ['document_image',]
+
+        document_image = forms.FileField(
+            widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
 
-# class ApplicantDocumentsForm(forms.ModelForm):
-#     class Meta:
-#         model = ApplicantDocuments
-#         fields = "__all__"
-#         exclude = ['appcant_id', 'Occupation_id', 'created_at']
-class ApplicantDocumentsForm(forms.ModelForm):
+class VehicleDocumentsForm(forms.ModelForm):
     class Meta:
-        model = ApplicantDocuments
-        fields = [ 'document_image',]
+        model = VehicleDocuments
+        fields = [
+            'rc_card',
+            'insurance',
+            'form_29_30',
+            'form_34_35',
+            'bank_noc',
+            'rto_noc',
+            'form_28',
+        ]
+
+
+class DisbursementForm(forms.ModelForm):
+    class Meta:
+        model = Disbursement
+        fields = [
+            'bank_name',
+            'loan_amount',
+            'net_amount',
+            'emi_duration',
+
+        ]
