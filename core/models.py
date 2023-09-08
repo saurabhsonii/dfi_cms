@@ -94,18 +94,39 @@ class Contact(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class VehicleDetails(models.Model):
+# class VehicleDetails(models.Model):
+#     parent_id = models.ForeignKey(
+#         CustomUser, on_delete=models.CASCADE, null=True)
+#     vehicle_type = models.CharField(max_length=150)
+#     vehicle_name = models.CharField(max_length=150)
+#     vehicle_model = models.CharField(max_length=250)
+#     vehicle_number = models.CharField(max_length=150)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+
+#     def __str__(self):
+#         return str(self.vehicle_name)
+
+class LoanDetails(models.Model):
     parent_id = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, null=True)
-    vehicle_type = models.CharField(max_length=150)
-    vehicle_name = models.CharField(max_length=150)
-    vehicle_model = models.CharField(max_length=250)
-    vehicle_number = models.CharField(max_length=150)
+    loan_type = models.CharField(max_length=150,null=True,blank=True)
+    vehicle_name = models.CharField(max_length=150,null=True,blank=True)
+    vehicle_model = models.CharField(max_length=250,null=True,blank=True)
+    vehicle_number = models.CharField(max_length=150,null=True,blank=True)
+    home_lap = models.CharField(max_length=200,null=True,blank=True)
+    home_home = models.CharField(max_length=200,null=True,blank=True)
+    business_name = models.CharField(max_length=200,null=True,blank=True)
+    business_type = models.CharField(max_length=200,null=True,blank=True)
+    micro_name = models.CharField(max_length=200,null=True,blank=True)
+    micro_type = models.CharField(max_length=200,null=True,blank=True)
+    gold_type = models.CharField(max_length=150,null=True,blank=True)
+    gold_quantity = models.FloatField(null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.vehicle_name)
+        return str(self.loan_type)
 
 
 TITLE = [
@@ -134,7 +155,7 @@ class PersonalDetails(models.Model):
     city = models.CharField(max_length=50)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     county = models.CharField(max_length=150, default="INDIA")
-    vehicle_id = models.ForeignKey(VehicleDetails, on_delete=models.CASCADE)
+    vehicle_id = models.ForeignKey(LoanDetails, on_delete=models.CASCADE)
     pincode = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -157,7 +178,7 @@ class OccupationDetails(models.Model):
 
 class VehicleDocuments(models.Model):
     applicant = models.ForeignKey(
-        VehicleDetails, on_delete=models.CASCADE, null=True)
+        LoanDetails, on_delete=models.CASCADE, null=True)
     rc_card = models.FileField(upload_to="VehicleDocuments/")
     insurance = models.FileField(upload_to="VehicleDocuments/")
     form_29_30 = models.FileField(upload_to="VehicleDocuments/")
@@ -177,7 +198,7 @@ DURATION = [
 
 
 class Disbursement(models.Model):
-    vehicle_id = models.ForeignKey(VehicleDetails, on_delete=models.CASCADE)
+    vehicle_id = models.ForeignKey(LoanDetails, on_delete=models.CASCADE)
     bank_name = models.CharField(max_length=150)
     loan_amount = models.CharField(max_length=15)
     net_amount = models.CharField(max_length=15)

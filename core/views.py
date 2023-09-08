@@ -3,11 +3,11 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import (LoginForm, ContactForm, AgentRegistrationForm,
-                    AgentUpdateForm, VehicleDetailsForm, PersonalDetailsForm, DocumentImagesForm,
+                    AgentUpdateForm, LoanDetailsForm, PersonalDetailsForm, DocumentImagesForm,
                     VehicleDocumentsForm, DisbursementForm, OccupationDetailsForm)
 from django.contrib.auth import logout
 from .models import (Contact, CustomUser, OccupationDetails, DocumentImages,
-                     VehicleDetails, PersonalDetails, State, Disbursement, OccupationDetails, VehicleDocuments)
+                     LoanDetails, PersonalDetails, State, Disbursement, OccupationDetails, VehicleDocuments)
 
 
 # Create your views here.
@@ -145,33 +145,33 @@ def applicantfrom(request):
 
 
 def vehicle_details(request):
-    vehicle_type = request.GET.get('type')
+    loan_type = request.GET.get('type')
     if request.method == 'POST':
-        vehicle_type = request.GET.get('type')
-        print(vehicle_type)
-        form = VehicleDetailsForm(request.POST)
+        loan_type = request.GET.get('type')
+        print(loan_type)
+        form = LoanDetailsForm(request.POST)
         if form.is_valid():
-            vehicle_data = form.cleaned_data
-            vehicle = VehicleDetails(**vehicle_data)
-            vehicle.parent_id = request.user
-            vehicle.vehicle_type = vehicle_type
-            vehicle.save()
-            vehicle_id = vehicle.id
-            request.session['vehicle_data'] = vehicle_id
+            loan_data = form.cleaned_data
+            loan = LoanDetails(**loan_data)
+            loan.parent_id = request.user
+            loan.loan_type = loan_type
+            loan.save()
+            loan_id = loan.id
+            request.session['loan_data'] = loan_id
 
             return redirect('personal_details')
     else:
 
-        form = VehicleDetailsForm()
+        form = LoanDetailsForm()
 
-    return render(request, 'dashboard/applicant-form.html', {'form': form, "vehicle_type": vehicle_type})
+    return render(request, 'dashboard/applicant-form.html', {'form': form, "loan_type": loan_type})
 
 
 def personal_details(request):
     if request.method == 'POST':
         form = PersonalDetailsForm(request.POST)
         vehicle_data = request.session.get('vehicle_data', {})
-        vehicle_data = VehicleDetails.objects.get(id=vehicle_data)
+        vehicle_data = LoanDetails.objects.get(id=vehicle_data)
         print(vehicle_data)
 
         if form.is_valid():
@@ -242,7 +242,7 @@ def vehicle_documents(request):
         vehicle_documents_form = VehicleDocumentsForm(
             request.POST, request.FILES)
         vehicle_data = request.session.get('vehicle_data', {})
-        vehicle_data = VehicleDetails.objects.get(id=vehicle_data)
+        vehicle_data = LoanDetails.objects.get(id=vehicle_data)
 
         if vehicle_documents_form.is_valid():
             # Handle the VehicleDocuments uploads
@@ -263,7 +263,7 @@ def disbursement(request):
     if request.method == 'POST':
         disbursement_form = DisbursementForm(request.POST)
         vehicle_data = request.session.get('vehicle_data', {})
-        vehicle_data = VehicleDetails.objects.get(id=vehicle_data)
+        vehicle_data = LoanDetails.objects.get(id=vehicle_data)
 
         if disbursement_form.is_valid():
             # Process and save the Disbursement data
@@ -284,7 +284,7 @@ def confirmation(request):
     personal_data = request.session.get('personal_data', {})
 
     # You can save the data to the database here if needed
-    vehicle = VehicleDetails(**vehicle_data)
+    vehicle = LoanDetails(**vehicle_data)
     vehicle.parent_id = request.user
     vehicle.save()
 
@@ -333,13 +333,13 @@ def confirmation(request):
 
 
 def ApplicantView(request):
-    vehicle_data = VehicleDetails.objects.all().order_by("-created_at")
+    vehicle_data = LoanDetails.objects.all().order_by("-created_at")
 
     return render(request, "dashboard/applicant-list.html", {"vehicle_data": vehicle_data})
 
 
 def edit_vehicle(request, vehicle_id):
-    vehicle = get_object_or_404(VehicleDetails, id=vehicle_id)
+    vehicle = get_object_or_404(LoanDetails, id=vehicle_id)
     personal_data = get_object_or_404(PersonalDetails, vehicle_id=vehicle_id)
     occupation_data = get_object_or_404(
         OccupationDetails, applicant=personal_data)
@@ -353,7 +353,7 @@ def edit_vehicle(request, vehicle_id):
     creater = get_object_or_404(CustomUser, id=vehicle.parent_id.id)
 
     if request.method == 'POST':
-        vehicle_form = VehicleDetailsForm(request.POST, instance=vehicle)
+        vehicle_form = LoanDetailsForm(request.POST, instance=vehicle)
         personal_form = PersonalDetailsForm(
             request.POST, instance=personal_data)
         occupation_form = OccupationDetailsForm(
@@ -389,7 +389,7 @@ def edit_vehicle(request, vehicle_id):
             return redirect('applicants')
 
     else:
-        vehicle_form = VehicleDetailsForm(instance=vehicle)
+        vehicle_form = LoanDetailsForm(instance=vehicle)
         personal_form = PersonalDetailsForm(instance=personal_data)
         occupation_form = OccupationDetailsForm(instance=occupation_data)
         disbursement_form = DisbursementForm(instance=disbursement_data)
@@ -407,3 +407,97 @@ def edit_vehicle(request, vehicle_id):
         'document_images': document_images,
         'creater': creater
     })
+
+
+#-----------------------Home Loan-----------
+def home_details(request):
+    loan_type = request.GET.get('type')
+    if request.method == 'POST':
+        loan_type = request.GET.get('type')
+        print(loan_type)
+        form = LoanDetailsForm(request.POST)
+        if form.is_valid():
+            loan_data = form.cleaned_data
+            loan = LoanDetails(**loan_data)
+            loan.parent_id = request.user
+            loan.loan_type = loan_type
+            loan.save()
+            loan_id = loan.id
+            request.session['loan_data'] = loan_id
+
+            return redirect('personal_details')
+    else:
+
+        form = LoanDetailsForm()
+
+    return render(request, 'dashboard/home-form.html', {'form': form, "loan_type": loan_type})
+
+#-----------------------Business Loan-----------
+def business_details(request):
+    loan_type = request.GET.get('type')
+    if request.method == 'POST':
+        loan_type = request.GET.get('type')
+        print(loan_type)
+        form = LoanDetailsForm(request.POST)
+        if form.is_valid():
+            loan_data = form.cleaned_data
+            loan = LoanDetails(**loan_data)
+            loan.parent_id = request.user
+            loan.loan_type = loan_type
+            loan.save()
+            loan_id = loan.id
+            request.session['loan_data'] = loan_id
+
+            return redirect('personal_details')
+    else:
+
+        form = LoanDetailsForm()
+
+    return render(request, 'dashboard/business-form.html', {'form': form, "loan_type": loan_type})
+
+
+#-----------------------Micro Loan-----------
+def micro_details(request):
+    loan_type = request.GET.get('type')
+    if request.method == 'POST':
+        loan_type = request.GET.get('type')
+        print(loan_type)
+        form = LoanDetailsForm(request.POST)
+        if form.is_valid():
+            loan_data = form.cleaned_data
+            loan = LoanDetails(**loan_data)
+            loan.parent_id = request.user
+            loan.loan_type = loan_type
+            loan.save()
+            loan_id = loan.id
+            request.session['loan_data'] = loan_id
+
+            return redirect('personal_details')
+    else:
+
+        form = LoanDetailsForm()
+
+    return render(request, 'dashboard/micro-form.html', {'form': form, "loan_type": loan_type})
+
+#-----------------------Gold Loan-----------
+def gold_details(request):
+    loan_type = request.GET.get('type')
+    if request.method == 'POST':
+        loan_type = request.GET.get('type')
+        print(loan_type)
+        form = LoanDetailsForm(request.POST)
+        if form.is_valid():
+            loan_data = form.cleaned_data
+            loan = LoanDetails(**loan_data)
+            loan.parent_id = request.user
+            loan.loan_type = loan_type
+            loan.save()
+            loan_id = loan.id
+            request.session['loan_data'] = loan_id
+
+            return redirect('personal_details')
+    else:
+
+        form = LoanDetailsForm()
+
+    return render(request, 'dashboard/gold-loan-form.html', {'form': form, "loan_type": loan_type})

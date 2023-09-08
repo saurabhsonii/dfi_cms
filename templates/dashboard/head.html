@@ -209,22 +209,22 @@
                                     <div class="collapse " id="authenticationSignUpCollapse">
                                         <ul class="nav flex-column">
                                             <li class="nav-item">
-                                                <a href="#" class="nav-link ">
+                                                <a href="{% url 'vehicle_details' %}?type=new_car" class="nav-link ">
                                                     <span>New Car Loan</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="#" class="nav-link ">
+                                                <a href="{% url 'vehicle_details' %}?type=old_car" class="nav-link ">
                                                     <span>Old Car Loan</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="#" class="nav-link ">
+                                                <a href="{% url 'vehicle_details' %}?type=new_commercial_car" class="nav-link ">
                                                     <span>New Commercial Loan</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="#" class="nav-link ">
+                                                <a href="{% url 'vehicle_details' %}?type=old_commercial_car" class="nav-link ">
                                                     <span>Old Commercial Loan</span>
                                                 </a>
                                             </li>
@@ -232,27 +232,22 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link " href="#">
+                                    <a class="nav-link " href="{% url 'home_details' %}?type=Home_Loan">
                                         <span>Home Loan</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link ">
+                                    <a href="{% url 'business_details' %}?type=Business_Loan" class="nav-link ">
                                         <span>Business Loan</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="sign-up-cover.html" class="nav-link ">
+                                    <a href="{% url 'micro_details' %}?type=Micro_Loan" class="nav-link ">
                                         <span>Micro Loan</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="sign-up-cover.html" class="nav-link ">
-                                        <span>Micro Loan</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="sign-up-cover.html" class="nav-link ">
+                                    <a href="{% url 'gold_details' %}?type=Gold_Loan" class="nav-link ">
                                         <span>Gold Loan</span>
                                     </a>
                                 </li>

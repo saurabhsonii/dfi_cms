@@ -1,5 +1,5 @@
 from django import forms
-from core.models import (Contact, CustomUser, VehicleDetails, PersonalDetails,
+from core.models import (Contact, CustomUser, LoanDetails, PersonalDetails,
                          OccupationDetails, DocumentImages, VehicleDocuments, Disbursement)
 from django.contrib.auth import get_user_model
 
@@ -64,11 +64,11 @@ class AgentUpdateForm(forms.ModelForm):
 
 # =========================================================================
 
-class VehicleDetailsForm(forms.ModelForm):
+class LoanDetailsForm(forms.ModelForm):
     class Meta:
-        model = VehicleDetails
+        model = LoanDetails
         fields = "__all__"
-        exclude = ['vehicle_type', 'created_at', 'updated_at', 'parent_id']
+        exclude = ['created_at', 'updated_at', 'parent_id']
 
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)

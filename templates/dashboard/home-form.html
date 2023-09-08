@@ -56,22 +56,22 @@
                                         {% csrf_token %}
                                         <div class="card-body">
                                           
-                                            <h2 class="text-center mb-0">VehicleDetails</h2>
+                                            <h2 class="text-center mb-0">HomeDetails</h2>
                                             <p class="text-secondary text-center">General information about your project</p>
 
                                             <div class="mb-3">
                                                 <div class="row">
                                                     <div class="col-md">
-                                                        <label for="projectName" class="form-label">vehicle_type</label>
-                                                        {% render_field form.loan_type class="form-control" value=loan_type placeholder="vehicle_type" %}
-                                                        <p>{{vehicle_type}}</p>
+                                                        <label for="projectName" class="form-label">Loan Type</label>
+                                                        {% render_field form.loan_type class="form-control" value=loan_type placeholder="Loan Type" %}                                                        
+                                                        
                                                         {% comment %} <input type="text" class="form-control" id="projectName" placeholder="Your project name" required> {% endcomment %}
                                                         <div class="invalid-feedback">Please add your project name</div>
                                                     </div>
 
                                                     <div class="col-md">
-                                                        <label for="owner" class="form-label">vehicle_name</label>
-                                                         {% render_field form.vehicle_name class="form-control" placeholder="vehicle_name" %}
+                                                        <label for="owner" class="form-label">Home Lap</label>
+                                                         {% render_field form.home_lap class="form-control" placeholder="Home Lap" %}
                                                         {% comment %} <input type="text" class="form-control" id="owner" placeholder="Owner's name" required> {% endcomment %}
                                                         <div class="invalid-feedback">Please add a name</div>
                                                     </div>
@@ -81,18 +81,12 @@
                                             <div class="mb-3">
                                                 <div class="row">
                                                     <div class="col-md">
-                                                        <label for="projectName" class="form-label">vehicle_model</label>
-                                                       {% render_field form.vehicle_model class="form-control" placeholder="vehicle_model" %}
+                                                        <label for="projectName" class="form-label">Home</label>
+                                                       {% render_field form.home_home class="form-control" placeholder="Home" %}
                                                         {% comment %} <input type="text" class="form-control" id="projectName" placeholder="Your project name" required> {% endcomment %}
                                                         <div class="invalid-feedback">Please add your project name</div>
                                                     </div>
 
-                                                    <div class="col-md">
-                                                        <label for="owner" class="form-label">vehicle_number</label>
-                                                        {% render_field form.vehicle_number class="form-control" placeholder="vehicle_number" %}
-                                                        {% comment %} <input type="text" class="form-control" id="owner" placeholder="Owner's name" required> {% endcomment %}
-                                                        <div class="invalid-feedback">Please add a name</div>
-                                                    </div>
                                                 </div> <!-- / .row -->
                                             </div>
 
@@ -313,36 +307,4 @@
                     </div>
                 </div> <!-- / .row -->
             </div> <!-- / .container-fluid -->
-
-            <script>
-                var steps = "{{wizard.steps.step1}}";
-                if(steps == 1 ){
-                    var e = document.getElementById('wizardTabOne');
-                    e.classList.add("active");
-        
-                    e = document.getElementById('wizardStepOne');
-                    e.classList.add("active");
-                    e.classList.add("show");
-                }
-                if(steps == 2 ){
-                    var e = document.getElementById('wizardTabOne');
-                    e.classList.remove("active");
-        
-                    e = document.getElementById('wizardTabTwo');
-                    e.classList.add("active");
-        
-                    var f = document.getElementById('wizardStepTwo');
-                    f.classList.add("active");
-                    f.classList.add("show");
-                }
-                if(steps == 3 ){
-                    const e = document.getElementById('wizardTabThree');
-                    e.classList.add("active");
-        
-                    const f = document.getElementById('wizardStepThree');
-                    f.classList.add("active");
-                    f.classList.add("show");
-                }
-        </script>
-        
             {% endblock %}
