@@ -158,7 +158,7 @@ def vehicle_details(request):
             loan.save()
             loan_id = loan.id
             request.session['loan_data'] = loan_id
-
+            messages.success(request, 'Your Vehicle details were saved successfully.')
             return redirect('personal_details')
     else:
 
@@ -189,6 +189,7 @@ def personal_details(request):
             # }
             # personal_data['state'] = state_dict
             request.session['personal_data'] = personal
+            messages.success(request, 'Your Personal details were saved successfully.')
             return redirect('occupation_details')
     else:
         form = PersonalDetailsForm()
@@ -228,7 +229,7 @@ def occupation_details(request):
                     name=image_path.split('/')[-1], image=image_path)
                 document.save()
                 occupation_data.document_image.add(document)
-
+            messages.success(request, 'Your Occupation details were saved successfully.')
             return redirect('vehicle_documents')
     else:
         form = DocumentImagesForm()
@@ -248,6 +249,7 @@ def vehicle_documents(request):
             # Handle the VehicleDocuments uploads
             vehicle_documents = vehicle_documents_form.save(commit=False)
             vehicle_documents.applicant = vehicle_data
+            messages.success(request, 'Your Vehicle Document Uploaded saved successfully.')
             vehicle_documents.save()
 
             # Redirect to confirmation page or another appropriate page
@@ -270,6 +272,7 @@ def disbursement(request):
             disbursement_data = disbursement_form.save(commit=False)
             disbursement_data.vehicle_id = vehicle_data
             # Associate the Disbursement data with the relevant VehicleDetails or OccupationDetails, if needed
+            messages.success(request, 'Your Disbursment details were saved successfully.')
             disbursement_data.save()
             return redirect('applicants')
 

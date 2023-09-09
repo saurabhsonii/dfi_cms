@@ -17,7 +17,10 @@
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&amp;display=swap">
     <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');"
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&amp;display=swap">
-
+        <!-- Tostify -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+        
     <!-- no-JS fallback -->
     <noscript>
         <link rel="stylesheet"
@@ -694,6 +697,43 @@
     <!-- JAVASCRIPT-->
     <!-- Theme JS -->
     <script src="{% static 'assets/js/theme.bundle.js' %}"></script>
+
+    <script>
+        // Function to display Django messages as toasts
+        function displayDjangoMessages() {
+            {% for message in messages %}
+                var message_text = "{{ message }}";
+                var message_tag = "{{ message.tags }}";
+                var toastColor = "";
+    
+                // Determine the toast color based on the message tag
+                if (message_tag === "success") {
+                    toastColor = "green";
+                } else if (message_tag === "info") {
+                    toastColor = "blue";
+                } else if (message_tag === "warning") {
+                    toastColor = "yellow";
+                } else if (message_tag === "error") {
+                    toastColor = "red";
+                }
+    
+                // Display the toast notification
+                Toastify({
+                    text: message_text,
+                    duration: 5000, // Duration in milliseconds
+                    gravity: "top", // Display position
+                    close: true, // Show close button
+                    backgroundColor: toastColor, // Toast background color
+                }).showToast();
+            {% endfor %}
+        }
+    
+        // Call the function when the page loads
+        window.onload = function () {
+            displayDjangoMessages();
+        };
+    </script>
+    
 </body>
 
 </html>
