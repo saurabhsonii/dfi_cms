@@ -203,7 +203,7 @@ class Disbursement(models.Model):
     loan_amount = models.CharField(max_length=15)
     net_amount = models.CharField(max_length=15)
     emi_duration = models.CharField(max_length=50, choices=DURATION)
-    status = models.BooleanField(default=True)
+    status = models.BooleanField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

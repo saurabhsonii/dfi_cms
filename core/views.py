@@ -9,10 +9,10 @@ from django.contrib.auth import logout
 from .models import (Contact, CustomUser, OccupationDetails, DocumentImages,
                      LoanDetails, PersonalDetails, State, Disbursement, OccupationDetails, VehicleDocuments)
 
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
-
+@login_required(login_url='login')
 def index_view(request):
     contact_count = Contact.objects.all().count()
     agent_count = CustomUser.objects.filter(parent_id=request.user.id).count()
@@ -24,7 +24,7 @@ def index_view(request):
 
 # ---------------------------------contact section-------------------------------------------------------
 
-
+@login_required(login_url='login')
 def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -42,19 +42,19 @@ def contact_view(request):
 
     return render(request, 'dashboard/contact.html', {'form': form})
 
-
+@login_required(login_url='login')
 def contact_list(request):
     contacts = Contact.objects.all().order_by("-created_at")
     return render(request, 'dashboard/contact-list.html', {'contacts': contacts})
 
-
+@login_required(login_url='login')
 def contact_details(request, contact_id):
     contact = get_object_or_404(Contact, id=contact_id)
     contact.is_seen = True
     contact.save()
     return render(request, 'dashboard/contact-details.html', {'contact': contact})
 
-
+@login_required(login_url='login')
 def delete_contact(request, contact_id):
     contact = get_object_or_404(Contact, id=contact_id)
     contact.delete()
@@ -83,7 +83,7 @@ def login_view(request):
 
     return render(request, 'dashboard/login.html', {'form': form})
 
-
+@login_required(login_url='login')
 def logout_view(request):
     logout(request)
     return redirect('home')
@@ -91,7 +91,7 @@ def logout_view(request):
 
 # -----------------------------------------------------------------------------------
 
-
+@login_required(login_url='login')
 def register_agent(request):
     manager = request.user.id
     if request.method == 'POST':
@@ -112,14 +112,14 @@ def register_agent(request):
 
     return render(request, 'dashboard/register_agent.html', {'form': form})
 
-
+@login_required(login_url='login')
 def agent_list(request):
     manager = request.user.id
     agents = CustomUser.objects.filter(
         user_role='agent', parent_id=manager).order_by("-date_joined")
     return render(request, 'dashboard/agent-list.html', {'agents': agents})
 
-
+@login_required(login_url='login')
 def update_agent(request, agent_id):
     agent = get_object_or_404(CustomUser, id=agent_id, user_role='agent')
 
@@ -136,14 +136,14 @@ def update_agent(request, agent_id):
 
 
 # -----------------------applicant ----------------------------------------------------------------------------
-
+@login_required(login_url='login')
 def applicantfrom(request):
 
     return render(request, "dashboard/applicant-form.html")
 
 # /------------------------------------------vehicle--------------------------------
 
-
+@login_required(login_url='login')
 def vehicle_details(request):
     loan_type = request.GET.get('type')
     if request.method == 'POST':
@@ -166,18 +166,17 @@ def vehicle_details(request):
 
     return render(request, 'dashboard/applicant-form.html', {'form': form, "loan_type": loan_type})
 
-
+@login_required(login_url='login')
 def personal_details(request):
     if request.method == 'POST':
         form = PersonalDetailsForm(request.POST)
-        vehicle_data = request.session.get('vehicle_data', {})
-        vehicle_data = LoanDetails.objects.get(id=vehicle_data)
-        print(vehicle_data)
+        loan_data = request.session.get('loan_data',{})
+        loan_data = LoanDetails.objects.get(id=loan_data)
 
         if form.is_valid():
             personal_data = form.cleaned_data
             personal = PersonalDetails(**personal_data)
-            personal.vehicle_id = vehicle_data
+            personal.vehicle_id = loan_data
             personal.save()
             personal = personal.id
 
@@ -194,9 +193,9 @@ def personal_details(request):
     else:
         form = PersonalDetailsForm()
 
-    return render(request, 'dashboard/applicant-form.html', {'form': form})
+    return render(request, 'dashboard/personal-detail-step2.html', {'form': form,'step':2})
 
-
+@login_required(login_url='login')
 def occupation_details(request):
     if request.method == 'POST':
         form = DocumentImagesForm(request.POST, request.FILES)
@@ -216,7 +215,7 @@ def occupation_details(request):
 
             # uploaded_image_paths = request.session.get(
             #     'uploaded_image_paths', [])
-            personal_data = request.session.get('personal_data', {})
+            personal_data = request.session.get('personal_data')
             personal_data = PersonalDetails.objects.get(id=personal_data)
             applicant_id = personal_data.id
 
@@ -234,14 +233,15 @@ def occupation_details(request):
     else:
         form = DocumentImagesForm()
 
-    return render(request, 'dashboard/applicant-form.html', {'form': form})
+    return render(request, 'dashboard/occupentional-detail-step.html', {'form': form})
 
-
+@login_required(login_url='login')
 def vehicle_documents(request):
     if request.method == 'POST':
         vehicle_documents_form = VehicleDocumentsForm(
             request.POST, request.FILES)
-        vehicle_data = request.session.get('vehicle_data', {})
+        vehicle_data = request.session.get('loan_data', {})
+        print(vehicle_data)
         vehicle_data = LoanDetails.objects.get(id=vehicle_data)
 
         if vehicle_documents_form.is_valid():
@@ -256,13 +256,13 @@ def vehicle_documents(request):
     else:
         form = VehicleDocumentsForm()
 
-    return render(request, 'dashboard/applicant-form.html', {'form': form})
+    return render(request, 'dashboard/vehicle-documets-step4.html', {'form': form})
 
-
+@login_required(login_url='login')
 def disbursement(request):
     if request.method == 'POST':
         disbursement_form = DisbursementForm(request.POST)
-        vehicle_data = request.session.get('vehicle_data', {})
+        vehicle_data = request.session.get('loan_data', {})
         vehicle_data = LoanDetails.objects.get(id=vehicle_data)
 
         if disbursement_form.is_valid():
@@ -271,14 +271,15 @@ def disbursement(request):
             disbursement_data.vehicle_id = vehicle_data
             # Associate the Disbursement data with the relevant VehicleDetails or OccupationDetails, if needed
             disbursement_data.save()
-            return redirect('home')
+            return redirect('applicants')
 
     else:
         form = DisbursementForm()
 
-    return render(request, 'dashboard/applicant-form.html', {'form': form})
+    return render(request, 'dashboard/disbursement-form-step5.html', {'form': form})
 
 
+@login_required(login_url='login')
 def confirmation(request):
     vehicle_data = request.session.get('vehicle_data', {})
     personal_data = request.session.get('personal_data', {})
@@ -332,12 +333,14 @@ def confirmation(request):
     return render(request, 'dashboard/index.html', {'vehicle_data': vehicle_data, 'personal_data': personal_data})
 
 
+@login_required(login_url='login')
 def ApplicantView(request):
     vehicle_data = LoanDetails.objects.all().order_by("-created_at")
 
     return render(request, "dashboard/applicant-list.html", {"vehicle_data": vehicle_data})
 
 
+@login_required(login_url='login')
 def edit_vehicle(request, vehicle_id):
     vehicle = get_object_or_404(LoanDetails, id=vehicle_id)
     personal_data = get_object_or_404(PersonalDetails, vehicle_id=vehicle_id)
@@ -410,6 +413,7 @@ def edit_vehicle(request, vehicle_id):
 
 
 #-----------------------Home Loan-----------
+@login_required(login_url='login')
 def home_details(request):
     loan_type = request.GET.get('type')
     if request.method == 'POST':
@@ -433,6 +437,7 @@ def home_details(request):
     return render(request, 'dashboard/home-form.html', {'form': form, "loan_type": loan_type})
 
 #-----------------------Business Loan-----------
+@login_required(login_url='login')
 def business_details(request):
     loan_type = request.GET.get('type')
     if request.method == 'POST':
@@ -457,6 +462,7 @@ def business_details(request):
 
 
 #-----------------------Micro Loan-----------
+@login_required(login_url='login')
 def micro_details(request):
     loan_type = request.GET.get('type')
     if request.method == 'POST':
@@ -480,6 +486,7 @@ def micro_details(request):
     return render(request, 'dashboard/micro-form.html', {'form': form, "loan_type": loan_type})
 
 #-----------------------Gold Loan-----------
+@login_required(login_url='login')
 def gold_details(request):
     loan_type = request.GET.get('type')
     if request.method == 'POST':
