@@ -436,13 +436,24 @@ def ApplicantView(request):
 
 @login_required(login_url='login')
 def edit_vehicle(request, vehicle_id):
+
     vehicle = get_object_or_404(LoanDetails, id=vehicle_id)
-    personal_data = get_object_or_404(PersonalDetails, vehicle_id=vehicle_id)
-    occupation_data = get_object_or_404(
-        OccupationDetails, applicant=personal_data)
-    disbursement_data = get_object_or_404(Disbursement, vehicle_id=vehicle_id)
-    VehicleDocuments_data = get_object_or_404(
-        VehicleDocuments, applicant=vehicle_id)
+    # personal_data = get_object_or_404(PersonalDetails, vehicle_id=vehicle_id)
+    # occupation_data = get_object_or_404(
+    #     OccupationDetails, applicant=personal_data)
+    # disbursement_data = get_object_or_404(Disbursement, vehicle_id=vehicle_id)
+    # VehicleDocuments_data = get_object_or_404(
+    #     VehicleDocuments, applicant=vehicle_id)
+
+    # Try to get the related objects or create them if they don't exist
+    personal_data, _ = PersonalDetails.objects.get_or_create(
+        vehicle_id=vehicle)
+    occupation_data, _ = OccupationDetails.objects.get_or_create(
+        applicant=personal_data)
+    disbursement_data, _ = Disbursement.objects.get_or_create(
+        vehicle_id=vehicle)
+    VehicleDocuments_data, _ = VehicleDocuments.objects.get_or_create(
+        applicant=vehicle)
 
     # Retrieve the associated DocumentImages for the OccupationDetails instance
     document_images = occupation_data.document_image.all()
