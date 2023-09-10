@@ -1,6 +1,6 @@
 from django import forms
 from core.models import (Contact, CustomUser, LoanDetails, PersonalDetails,
-                         OccupationDetails, DocumentImages, VehicleDocuments, Disbursement)
+                         OccupationDetails, DocumentImages, VehicleDocuments, Disbursement, ChannalPattern, PatternSourcing)
 from django.contrib.auth import get_user_model
 
 
@@ -118,6 +118,19 @@ class VehicleDocumentsForm(forms.ModelForm):
             'rto_noc',
             'form_28',
         ]
+
+
+class ChannalPatternForm(forms.ModelForm):
+    class Meta:
+        model = ChannalPattern
+        fields = ["sourcing", ]
+
+
+class PatternSourcingForm(forms.ModelForm):
+    class Meta:
+        model = PatternSourcing
+        fields = "__all__"
+        exclude = ["vehicle_id", "created_at",]
 
 
 class DisbursementForm(forms.ModelForm):

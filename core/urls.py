@@ -24,7 +24,7 @@ urlpatterns = [
     # vehicle--------------------------------------------------------------------
 
     path('vehicle-details/', views.vehicle_details, name='vehicle_details'),
-    
+
     path('home-details/', views.home_details, name='home_details'),
     path('business-details/', views.business_details, name='business_details'),
     path('micro-details/', views.micro_details, name='micro_details'),
@@ -34,6 +34,8 @@ urlpatterns = [
     path('occupation_details/', views.occupation_details,
          name='occupation_details'),
     path('vehicle_documents/', views.vehicle_documents, name='vehicle_documents'),
+    path('channalpattern/', views.ChannalPattern, name='ChannalPattern'),
+    path('patternsourcing/', views.PatternSourcing, name='PatternSourcing'),
     path('disbursement/', views.disbursement, name='disbursement'),
     path('confirmation/', views.confirmation, name='confirmation'),
     path('applicants/', views.ApplicantView, name='applicants'),
