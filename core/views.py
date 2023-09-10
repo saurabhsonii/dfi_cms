@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+import datetime
 from django.contrib import messages
 from .forms import (LoginForm, ContactForm, AgentRegistrationForm,
                     AgentUpdateForm, LoanDetailsForm, PersonalDetailsForm, DocumentImagesForm,
@@ -144,8 +145,8 @@ def update_agent(request, agent_id):
     if request.method == 'POST':
         form = AgentUpdateForm(request.POST, instance=agent)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Agent details updated successfully.')
+            if(form.save()):
+                messages.success(request, 'Agent details updated successfully.')
             return redirect('agent_list')  # Redirect to the agent list page
     else:
         form = AgentUpdateForm(instance=agent)
@@ -595,10 +596,10 @@ def gold_details(request):
 
 
 def approve(request, disburs_id):
-        personal_form = Disbursement(id=disburs_id)
-        personal_form.status = 2
-        messages.success(request, 'Your Loan Application Update successfully.')
-        personal_form.save()
+        personal_form = Disbursement.objects.get(id=disburs_id)
+        personal_form.status = False
+        if(personal_form.save()):
+            messages.success(request, 'Your Loan Application Update successfully.')
         return redirect('applicants')
     
 

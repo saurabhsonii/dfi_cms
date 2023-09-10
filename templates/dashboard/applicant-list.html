@@ -118,7 +118,7 @@
                                                 {% for i in vehicle.Disbursement.all %}
                                                 {% if  i.status == 1 %}
                                                 <span class="badge text-bg-warning rounded-pill">In-process<span>
-                                                    {% elif i.status == 2 %}
+                                                    {% elif i.status == 0 %}
                                                 <span class="badge text-bg-success rounded-pill">Approved<span>
                                                     {% endif %}
                                                     {% endfor %}
@@ -140,24 +140,27 @@
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         {% for i in vehicle.Disbursement.all %}
+                                                        {% if  i.status == 1  %}
+                                                        {% if user.user_role != "agent" %}
                                                         <li>
-                                                            <a class="dropdown-item" href="{% url 'approve' i.id %}">
+                                                            <a class="dropdown-item text-bg-success-soft" href="{% url 'approve' i.id %}">
                                                                 Approve
                                                             </a>
                                                         </li>
+                                                        {% endif %} 
+                                                        {% else %}
+                                                        <li>
+                                                            <a class="dropdown-item" href="{% url 'generate_loan_details_docx' vehicle.id %}">
+                                                                Download
+                                                            </a>
+                                                        </li>
+                                                        {% endif %} 
                                                         {% endfor %}
                                                         <li>
                                                             <a class="dropdown-item" href="{% url 'edit_vehicle' vehicle.id %}">
                                                                 Details
                                                             </a>
                                                         </li>
-                                                      
-                                                        <li>
-                                                            <a class="dropdown-item" href="{% url 'generate_loan_details_docx' vehicle.id %}">
-                                                                Download
-                                                            </a>
-                                                        </li>
-                                                      
                                                         <li><hr class="dropdown-divider"></li>
                                                         <li>
                                                             <a class="dropdown-item text-danger" href="#"> 
