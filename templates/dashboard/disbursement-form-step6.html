@@ -10,14 +10,14 @@
 
         <!-- Title -->
         <h1 class="h2">
-            Wizard
+            Disbursement
         </h1>
 
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Wizard</li>
+                <li class="breadcrumb-item active" aria-current="page">Disbursement</li>
             </ol>
         </nav>
     </div>
@@ -54,11 +54,16 @@
                             4
                         </button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="wizardTabFive" data-bs-toggle="pill"
+                    <li class="nav-item visited" role="presentation">
+                        <button class="nav-link " id="wizardTabFive" data-bs-toggle="pill"
                             data-bs-target="#wizardStepFive" type="button" role="tab" aria-controls="wizardStepThree"
                             aria-selected="false">
                             5
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="wizardTabSix" data-bs-toggle="pill" data-bs-target="#wizardStepSix" type="button" role="tab" aria-controls="wizardStepSix" aria-selected="false">
+                            6
                         </button>
                     </li>
                 </ul>
@@ -139,14 +144,7 @@
                             </form>
                         </div>
                     </div>
-                    <form method="post" action="" enctype="multipart/form-data">
-
-                        <input type="submit" name="submit" value="Submit">
-
-                        <a href="{% url 'occupation_details' %}" class="btn btn-secondary">Back to Occupation
-                            Details</a>
-
-                    </form>
+                   
                 </div>
 
 

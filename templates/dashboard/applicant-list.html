@@ -103,12 +103,14 @@
                                         {% for vehicle in vehicle_data %}
                                         <tr>
                                             <td class="name">{{vehicle.id}}</td> 
+                                            <td class="name">
                                             {% for i in vehicle.PersonalDetails.all %}
-                                            <td class="name">{{i.applicant_name}}</td> 
+                                            {{i.applicant_name}}
                                             {% endfor %}
+                                            </td> 
                                             <td class="name">{{vehicle.loan_type}}</td> 
-                                            <td class="name">{{vehicle.loan_type}}</td> 
-                                            <td class="name">{{vehicle.loan_type}}</td> 
+                                            <td class="name">93340121915</td> 
+                                            <td class="name">Yogesh</td> 
                                             
                                             
                                             <td class="created" data-created="1646179200">{{vehicle.status}}
@@ -116,7 +118,7 @@
                                                 {% for i in vehicle.Disbursement.all %}
                                                 {% if  i.status == 1 %}
                                                 <span class="badge text-bg-warning rounded-pill">In-process<span>
-                                                    {% elif i.status == 2 %}
+                                                    {% elif i.status == 0 %}
                                                 <span class="badge text-bg-success rounded-pill">Approved<span>
                                                     {% endif %}
                                                     {% endfor %}
@@ -124,8 +126,8 @@
                                             {% else %}
                                                 <span class="badge text-bg-info rounded-pill">Unfnished<span>
                                             
-
-                                            </td>{% endif %} 
+                                                    {% endif %} 
+                                            </td>
                                             
                                             
                                               
@@ -137,18 +139,28 @@
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="14" width="14"><g><circle cx="12" cy="3.25" r="3.25" style="fill: currentColor"/><circle cx="12" cy="12" r="3.25" style="fill: currentColor"/><circle cx="12" cy="20.75" r="3.25" style="fill: currentColor"/></g></svg>
                                                     </a>
                                                     <ul class="dropdown-menu">
+                                                        {% for i in vehicle.Disbursement.all %}
+                                                        {% if  i.status == 1  %}
+                                                        {% if user.user_role != "agent" %}
                                                         <li>
-                                                            <a class="dropdown-item" href="{% url 'edit_vehicle' vehicle.id %}">
-                                                                Details
+                                                            <a class="dropdown-item text-bg-success-soft" href="{% url 'approve' i.id %}">
+                                                                Approve
                                                             </a>
                                                         </li>
-                                                      
+                                                        {% endif %} 
+                                                        {% else %}
                                                         <li>
                                                             <a class="dropdown-item" href="{% url 'generate_loan_details_docx' vehicle.id %}">
                                                                 Download
                                                             </a>
                                                         </li>
-                                                      
+                                                        {% endif %} 
+                                                        {% endfor %}
+                                                        <li>
+                                                            <a class="dropdown-item" href="{% url 'edit_vehicle' vehicle.id %}">
+                                                                Details
+                                                            </a>
+                                                        </li>
                                                         <li><hr class="dropdown-divider"></li>
                                                         <li>
                                                             <a class="dropdown-item text-danger" href="#"> 

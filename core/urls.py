@@ -41,6 +41,8 @@ urlpatterns = [
     path('applicants/', views.ApplicantView, name='applicants'),
     path('edit_vehicle/<int:vehicle_id>/', views.edit_vehicle,
          name='edit_vehicle'),  # Add this line
+    path('approve/<int:disburs_id>/', views.approve,
+         name='approve'), 
     path('generate_loan_details_docx/<int:vehicle_id>/', views.generate_loan_details_docx,
          name='generate_loan_details_docx'),  # Add this line
 
