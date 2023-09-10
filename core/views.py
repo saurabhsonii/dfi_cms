@@ -545,7 +545,6 @@ def micro_details(request):
     loan_type = request.GET.get('type')
     if request.method == 'POST':
         loan_type = request.GET.get('type')
-        print(loan_type)
         form = LoanDetailsForm(request.POST)
         if form.is_valid():
             loan_data = form.cleaned_data
@@ -590,6 +589,15 @@ def gold_details(request):
         form = LoanDetailsForm()
 
     return render(request, 'dashboard/gold-loan-form.html', {'form': form, "loan_type": loan_type})
+
+
+def approve(request, disburs_id):
+        personal_form = Disbursement(id=disburs_id)
+        personal_form.status = 2
+        messages.success(request, 'Your Loan Application Update successfully.')
+        personal_form.save()
+        return redirect('applicants')
+    
 
 
 def generate_loan_details_docx(request, vehicle_id):
