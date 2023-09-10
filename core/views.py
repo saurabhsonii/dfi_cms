@@ -8,6 +8,11 @@ from .forms import (LoginForm, ContactForm, AgentRegistrationForm,
 from django.contrib.auth import logout
 from .models import (Contact, CustomUser, OccupationDetails, DocumentImages,
                      LoanDetails, PersonalDetails, State, Disbursement, OccupationDetails, VehicleDocuments)
+import os
+from docx import Document
+from django.http import HttpResponse, FileResponse
+import html2text
+from docx import Document
 
 from django.contrib.auth.decorators import login_required
 
@@ -428,6 +433,7 @@ def home_details(request):
             loan = LoanDetails(**loan_data)
             loan.parent_id = request.user
             loan.loan_type = loan_type
+            messages.success(request, 'Your details were saved successfully.')
             loan.save()
             loan_id = loan.id
             request.session['loan_data'] = loan_id
@@ -452,6 +458,7 @@ def business_details(request):
             loan = LoanDetails(**loan_data)
             loan.parent_id = request.user
             loan.loan_type = loan_type
+            messages.success(request, 'Your details were saved successfully.')
             loan.save()
             loan_id = loan.id
             request.session['loan_data'] = loan_id
@@ -477,6 +484,7 @@ def micro_details(request):
             loan = LoanDetails(**loan_data)
             loan.parent_id = request.user
             loan.loan_type = loan_type
+            messages.success(request, 'Your details were saved successfully.')
             loan.save()
             loan_id = loan.id
             request.session['loan_data'] = loan_id
@@ -501,6 +509,7 @@ def gold_details(request):
             loan = LoanDetails(**loan_data)
             loan.parent_id = request.user
             loan.loan_type = loan_type
+            messages.success(request, 'Your details were saved successfully.')
             loan.save()
             loan_id = loan.id
             request.session['loan_data'] = loan_id
@@ -511,3 +520,65 @@ def gold_details(request):
         form = LoanDetailsForm()
 
     return render(request, 'dashboard/gold-loan-form.html', {'form': form, "loan_type": loan_type})
+
+
+def generate_loan_details_docx(request,vehicle_id):
+    output_path = 'loan_details.docx'
+    # Retrieve LoanDetails for the specified user
+    vehicle_data = LoanDetails.objects.all().order_by("-created_at")
+    vehicle = get_object_or_404(LoanDetails, id=vehicle_id)
+    personal_data = get_object_or_404(PersonalDetails, vehicle_id=vehicle_id)
+    occupation_data = get_object_or_404(
+        OccupationDetails, applicant=personal_data)
+    disbursement_data = get_object_or_404(Disbursement, vehicle_id=vehicle_id)
+    VehicleDocuments_data = get_object_or_404(
+        VehicleDocuments, applicant=vehicle_id)
+    vehicle_form = LoanDetailsForm(instance=vehicle)
+    personal_form = PersonalDetailsForm(instance=personal_data)
+    occupation_form = OccupationDetailsForm(instance=occupation_data)
+    disbursement_form = DisbursementForm(instance=disbursement_data)
+    VehicleDocuments_form = VehicleDocumentsForm(
+        instance=VehicleDocuments_data)
+    document_form = DocumentImagesForm()
+    # Retrieve the associated DocumentImages for the OccupationDetails instance
+    document_images = occupation_data.document_image.all()
+    # get creater name who filled the form
+    creater = get_object_or_404(CustomUser, id=vehicle.parent_id.id)
+
+    # Create a new Word document
+    doc = Document()
+
+    # Add a title to the document
+    doc.add_heading('Loan Details Report', 0)
+
+    # Loop through loan details and add them to the document
+    for vehicle in vehicle_data:
+        doc.add_heading(f'Loan Type: {vehicle.loan_type}', level=1)
+        doc.add_paragraph(f'Vehicle Name: {vehicle.vehicle_name}')
+        doc.add_paragraph(f'Vehicle Model: {vehicle.vehicle_model}')
+        doc.add_paragraph(f'Vehicle Number: {vehicle.vehicle_number}')
+        # Add more loan detail fields as needed
+    docx_content = """
+<html>
+<head>
+    <title>Loan Details</title>
+</head>
+<body>
+    <h1>Loan Type: Car Loan</h1>
+    <p>Vehicle Name: My Car</p>
+    <p>Vehicle Model: XYZ123</p>
+    <p>Vehicle Number: ABC123</p>
+    <!-- Add more HTML content here -->
+</body>
+</html>
+"""
+    # Save the document to the specified output path
+    doc.save(output_path)
+    response = HttpResponse(docx_content, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = f'attachment; filename="loan_details.docx"'
+
+    return response
+# Example usage:
+# Replace 'user_id' with the actual user ID and 'output_path' with the desired file path
+ 
+

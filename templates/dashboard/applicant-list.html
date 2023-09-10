@@ -64,7 +64,16 @@
                                 <table class="table align-middle table-hover table-nowrap mb-0">
                                     <thead class="thead-light">
                                         <tr>
-                                           
+                                            <th>
+                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="loan_id">
+                                                    Loan ID
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
+                                                    Customer
+                                                </a>
+                                            </th>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
                                                     Loan Type
@@ -72,25 +81,12 @@
                                             </th>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted " style="text-align:center;">
-                                                    vehicle_name 
+                                                    Mobile 
                                                 </a>
                                             </th>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    vehicle_model
-                                                </a>
-                                            </th>
-                                             <th>
-                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    vehicle_number
-                                                </a>
-                                            </th>
-                                             
-                                            
-                                            
-                                            <th>
-                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="created">
-                                                    created_at
+                                                    Employee (only for manager)
                                                 </a>
                                             </th>
                                             <th>
@@ -106,12 +102,11 @@
                                         
                                         {% for vehicle in vehicle_data %}
                                         <tr>
+                                            <td class="name">{{vehicle.id}}</td> 
+                                            <td class="name">{{vehicle.applicant_name}}</td> 
                                             <td class="name">{{vehicle.loan_type}}</td> 
-                                            
-                                            <td class="name">{{vehicle.vehicle_name}}</td>
-                                             <td class="name">{{vehicle.vehicle_model}}</td>
-                                             <td class="name">{{vehicle.vehicle_number}}</td>
-                                            <td class="created" data-created="1646179200">{{vehicle.created_at}}</td>
+                                            <td class="name">{{vehicle.loan_type}}</td> 
+                                            <td class="name">{{vehicle.loan_type}}</td> 
                                             <td class="created" data-created="1646179200">{{vehicle.status}}
                                                 {% if vehicle.disbursement.status == null %}
                                                 <span class="badge text-bg-info rounded-pill">Unfnished<span>
@@ -136,9 +131,15 @@
                                                             </a>
                                                         </li>
                                                       
+                                                        <li>
+                                                            <a class="dropdown-item" href="{% url 'generate_loan_details_docx' vehicle.id %}">
+                                                                Download
+                                                            </a>
+                                                        </li>
+                                                      
                                                         <li><hr class="dropdown-divider"></li>
                                                         <li>
-                                                            {% comment %} <a class="dropdown-item text-danger" href="{% url 'delete_contact' agent.id %}"> {% endcomment %}
+                                                            <a class="dropdown-item text-danger" href="#"> 
                                                                 Delete
                                                             </a>
                                                         </li>

@@ -17,10 +17,10 @@
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&amp;display=swap">
     <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');"
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&amp;display=swap">
-        <!-- Tostify -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-        
+    <!-- Tostify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <!-- no-JS fallback -->
     <noscript>
         <link rel="stylesheet"
@@ -128,7 +128,11 @@
             html.removeAttribute('dir');
         }
     </script>
-
+<style>
+    #wizard-tab{
+        pointer-events:none;
+    }
+</style>
     <!-- Page Title -->
     <title>Dashboard | GwaliorGeeks</title>
 </head>
@@ -175,15 +179,15 @@
 
             <!-- Brand -->
             <a class="navbar-brand" href="/">
-                <img src="{% static 'assets/images/logo0.png' %}"
-                    class="navbar-brand-img logo-light logo-small" alt="..." width="19" height="40">
-                <img src="{% static 'assets/images/logo0.png' %}"
-                    class="navbar-brand-img logo-light logo-large" alt="..." width="125" height="40">
+                <img src="{% static 'assets/images/dfilogo.png' %}" class="navbar-brand-img logo-light logo-small"
+                    alt="..." width="19" height="40">
+                <img src="{% static 'assets/images/dfilogo.png' %}" class="navbar-brand-img logo-light logo-large"
+                    alt="..." width="125" height="40">
 
-                <img src="{% static 'assets/images/logo0.png' %}"
-                    class="navbar-brand-img logo-dark logo-small" alt="..." width="19" height="40">
-                <img src="{% static 'assets/images/logo0.png' %}"
-                    class="navbar-brand-img logo-dark logo0-large" alt="..." width="125" height="40">
+                <img src="{% static 'assets/images/dfilogo.png' %}" class="navbar-brand-img logo-dark logo-small"
+                    alt="..." width="19" height="40">
+                <img src="{% static 'assets/images/dfilogo.png' %}" class="navbar-brand-img logo-dark logo-large"
+                    alt="..." width="125" height="40">
             </a>
 
             <!-- Navbar toggler -->
@@ -198,80 +202,6 @@
 
                 <!-- Navigation -->
                 <ul class="navbar-nav mb-lg-7">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link " href="#authenticationCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="authenticationCollapse">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.75 9.75H5.25C4.42157 9.75 3.75 10.4216 3.75 11.25V21.75C3.75 22.5784 4.42157 23.25 5.25 23.25H18.75C19.5784 23.25 20.25 22.5784 20.25 21.75V11.25C20.25 10.4216 19.5784 9.75 18.75 9.75Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 9.75V6C6.75 4.60761 7.30312 3.27226 8.28769 2.28769C9.27226 1.30312 10.6076 0.75 12 0.75C13.3924 0.75 14.7277 1.30312 15.7123 2.28769C16.6969 3.27226 17.25 4.60761 17.25 6V9.75"/><path stroke="currentColor" stroke-width="1.5" d="M12 16.5C11.7929 16.5 11.625 16.3321 11.625 16.125C11.625 15.9179 11.7929 15.75 12 15.75"/><path stroke="currentColor" stroke-width="1.5" d="M12 16.5C12.2071 16.5 12.375 16.3321 12.375 16.125C12.375 15.9179 12.2071 15.75 12 15.75"/></svg>
-                            <span>Loan Application</span>
-                        </a>
-                        <div class="collapse " id="authenticationCollapse">
-                            <ul class="nav flex-column">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link" href="#authenticationSignUpCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="authenticationSignUpCollapse">
-                                        <span>Vehicle Loan</span>
-                                    </a>
-                                    <div class="collapse " id="authenticationSignUpCollapse">
-                                        <ul class="nav flex-column">
-                                            <li class="nav-item">
-                                                <a href="{% url 'vehicle_details' %}?type=new_car" class="nav-link ">
-                                                    <span>New Car Loan</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{% url 'vehicle_details' %}?type=old_car" class="nav-link ">
-                                                    <span>Old Car Loan</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{% url 'vehicle_details' %}?type=new_commercial_car" class="nav-link ">
-                                                    <span>New Commercial Loan</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{% url 'vehicle_details' %}?type=old_commercial_car" class="nav-link ">
-                                                    <span>Old Commercial Loan</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " href="{% url 'home_details' %}?type=Home_Loan">
-                                        <span>Home Loan</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{% url 'business_details' %}?type=Business_Loan" class="nav-link ">
-                                        <span>Business Loan</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{% url 'micro_details' %}?type=Micro_Loan" class="nav-link ">
-                                        <span>Micro Loan</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{% url 'gold_details' %}?type=Gold_Loan" class="nav-link ">
-                                        <span>Gold Loan</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="sign-up-cover.html" class="nav-link ">
-                                        <span>Personal Loan</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item w-100">
-                        <hr>
-                    </li>
-
-
-
-
-
-
-
                     <li class="nav-item">
                         <a href="{% url 'home' %}" class="nav-link">
                             <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
@@ -287,143 +217,6 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{% url "contact_list" %}" class="nav-link">
-                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
-                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" />
-                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" />
-                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" />
-                            </svg>
-                            <span>Contacts</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url "agent_list" %}" class="nav-link">
-                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
-                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" />
-                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" />
-                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" />
-                            </svg>
-                            <span>Agents</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url "applicants" %}" class="nav-link">
-                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
-                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" />
-                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" />
-                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" />
-                            </svg>
-                            <span>Applicants</span>
-                        </a>
-                    </li>
-                    <li class="nav-item w-100">
-                        <hr>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link " href="#pagesCollapse" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="pagesCollapse">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="nav-link-icon"
-                                height="18" width="18">
-                                <defs>
-                                    <style>
-                                        .a {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-linecap: round;
-                                            stroke-linejoin: round;
-                                            stroke-width: 1.5px;
-                                        }
-                                    </style>
-                                </defs>
-                                <title>common-file-double-1</title>
-                                <path class="a" d="M17.25,23.25H3.75a1.5,1.5,0,0,1-1.5-1.5V5.25" />
-                                <rect class="a" x="5.25" y="0.75" width="16.5" height="19.5" rx="1" ry="1" />
-                            </svg>
-                            <span>Pages</span>
-                        </a>
-                        <div class="collapse " id="pagesCollapse">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a href="account.html" class="nav-link ">
-                                        <span>Account</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="user.html" class="nav-link ">
-                                        <span>User</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pricing.html" class="nav-link ">
-                                        <span>Pricing</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="wizard.html" class="nav-link ">
-                                        <span>Wizard</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="help-center.html" class="nav-link ">
-                                        <span>Help Center</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="invoice.html" class="nav-link ">
-                                        <span>Invoice</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="api-keys.html" class="nav-link ">
-                                        <span>API Keys</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="maintenance.html" class="nav-link ">
-                                        <span>Maintenance</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="connect-apps.html" class="nav-link ">
-                                        <span>Connect Apps</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="landing.html" class="nav-link ">
-                                        <span>Landing Page</span>
-                                        <span class="badge text-bg-success rounded-pill ms-auto">New</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link " href="#authenticationCollapse" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="authenticationCollapse">
@@ -440,48 +233,191 @@
                                 <path stroke="currentColor" stroke-width="1.5"
                                     d="M12 16.5C12.2071 16.5 12.375 16.3321 12.375 16.125C12.375 15.9179 12.2071 15.75 12 15.75" />
                             </svg>
-                            <span>Authentication</span>
+                            <span>Vehicle Loan</span>
                         </a>
                         <div class="collapse " id="authenticationCollapse">
                             <ul class="nav flex-column">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link " href="#authenticationSignInCollapse" data-bs-toggle="collapse"
-                                        role="button" aria-expanded="false"
-                                        aria-controls="authenticationSignInCollapse">
-                                        <span>Sign In</span>
+                                <li class="nav-item">
+                                    <a class="nav-link " href="{% url 'vehicle_details' %}?type=new_car">
+                                        <span>New Car Loan</span>
                                     </a>
-                                    <div class="collapse " id="authenticationSignInCollapse">
-                                        <ul class="nav flex-column">
-
-                                            <li class="nav-item">
-                                                <a href="sign-in-illustration.html" class="nav-link ">
-                                                    <span>Illustration</span>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link " href="#authenticationResetPasswordCollapse"
-                                        data-bs-toggle="collapse" role="button" aria-expanded="false"
-                                        aria-controls="authenticationResetPasswordCollapse">
-                                        <span>Reset Password</span>
+                                <li class="nav-item">
+                                    <a href="{% url 'vehicle_details' %}?type=old_car" class="nav-link ">
+                                        <span>Old Car Loan</span>
                                     </a>
-                                    <div class="collapse " id="authenticationResetPasswordCollapse">
-                                        <ul class="nav flex-column">
-                                            <li class="nav-item">
-                                                <a href="reset-password-cover.html" class="nav-link ">
-                                                    <span>Cover</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </li>
-
-
+                                <li class="nav-item">
+                                    <a href="{% url 'vehicle_details' %}?type=new_commercial_car" class="nav-link ">
+                                        <span>New Commercial Loan</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'vehicle_details' %}?type=old_commercial_car" class="nav-link ">
+                                        <span>Old Commercial Loan</span>
+                                    </a>
+                                </li>
+                                
                             </ul>
                         </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'home_details' %}?type=Home_Loan" class="nav-link">
+                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                            </svg>
+                            <span>Home Loan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'business_details' %}?type=Business_Loan" class="nav-link">
+                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                            </svg>
+                            <span>Business Loan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'micro_details' %}?type=Micro_Loan" class="nav-link">
+                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                            </svg>
+                            <span>Micro Loan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'gold_details' %}?type=Gold_Loan" class="nav-link">
+                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                            </svg>
+                            <span>Gold Loan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                            </svg>
+                            <span>Personal Loan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item w-100">
+                        <hr>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'applicants' %}" class="nav-link">
+                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                            </svg>
+                            <span>Loan Applications</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'agent_list' %}" class="nav-link">
+                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                            </svg>
+                            <span>Employee</span>
+                        </a>
+                    </li>
+
+
+
+
+
+
+                    <!-- <li class="nav-item">
+                        <a href="{% url 'contact_list' %}" class="nav-link">
+                            <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                                <path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" />
+                            </svg>
+                            <span>Contacts</span>
+                        </a>
+                    </li> -->
+                   
+                    
+                    <li class="nav-item w-100">
+                        <hr>
                     </li>
 
                 </ul>
@@ -495,7 +431,7 @@
     <main>
 
         <!-- HEADER -->
-        <header class="container-fluid d-flex py-6 mb-4">
+        <header class="container-fluid d-flex py-6">
 
             <!-- Search -->
             <form class="d-none d-md-inline-block me-auto">
@@ -628,17 +564,17 @@
                 <div class="vr bg-gray-700 mx-2 mx-lg-3"></div>
 
                 <!-- Dropdown -->
-                 {% if user.is_authenticated %}
-                       
+                {% if user.is_authenticated %}
+
                 <div class="dropdown">
                     <a href="javascript: void(0);"
                         class="dropdown-toggle no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px"
                         role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true"
                         aria-expanded="false" data-bs-offset="0,0">
                         <div class="avatar avatar-circle avatar-sm avatar-online">
-                            <img src="{% static 'assets/images/avtar.jpg' %}"
-                                alt="..." class="avatar-img" width="40" height="40">
-                              
+                            <img src="{% static 'assets/images/avtar.jpg' %}" alt="..." class="avatar-img" width="40"
+                                height="40">
+
                         </div>
                     </a>
 
@@ -646,9 +582,9 @@
                         <div class="dropdown-item-text">
                             <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm avatar-circle">
-                                    <img src="{% static 'assets/images/avtar.jpg' %}"
-                                        alt="..." class="avatar-img" width="40" height="40">
-                                       
+                                    <img src="{% static 'assets/images/avtar.jpg' %}" alt="..." class="avatar-img"
+                                        width="40" height="40">
+
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h4 class="mb-0">{{ user.name }}</h4>
@@ -667,8 +603,8 @@
 
                         <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
                     </div>
-                </div> 
-                 {% endif %}
+                </div>
+                {% endif %}
             </div>
         </header>
 
@@ -689,8 +625,8 @@
             </div>
         </footer>
 
-        
-       
+
+
 
     </main> <!-- / main -->
 
@@ -702,38 +638,38 @@
         // Function to display Django messages as toasts
         function displayDjangoMessages() {
             {% for message in messages %}
-                var message_text = "{{ message }}";
-                var message_tag = "{{ message.tags }}";
-                var toastColor = "";
-    
-                // Determine the toast color based on the message tag
-                if (message_tag === "success") {
-                    toastColor = "green";
-                } else if (message_tag === "info") {
-                    toastColor = "blue";
-                } else if (message_tag === "warning") {
-                    toastColor = "yellow";
-                } else if (message_tag === "error") {
-                    toastColor = "red";
-                }
-    
-                // Display the toast notification
-                Toastify({
-                    text: message_text,
-                    duration: 5000, // Duration in milliseconds
-                    gravity: "top", // Display position
-                    close: true, // Show close button
-                    backgroundColor: toastColor, // Toast background color
-                }).showToast();
+            var message_text = "{{ message }}";
+            var message_tag = "{{ message.tags }}";
+            var toastColor = "";
+
+            // Determine the toast color based on the message tag
+            if (message_tag === "success") {
+                toastColor = "green";
+            } else if (message_tag === "info") {
+                toastColor = "blue";
+            } else if (message_tag === "warning") {
+                toastColor = "yellow";
+            } else if (message_tag === "error") {
+                toastColor = "red";
+            }
+
+            // Display the toast notification
+            Toastify({
+                text: message_text,
+                duration: 5000, // Duration in milliseconds
+                gravity: "top", // Display position
+                close: true, // Show close button
+                backgroundColor: toastColor, // Toast background color
+            }).showToast();
             {% endfor %}
         }
-    
+
         // Call the function when the page loads
         window.onload = function () {
             displayDjangoMessages();
         };
     </script>
-    
+
 </body>
 
 </html>
