@@ -145,8 +145,9 @@ def update_agent(request, agent_id):
     if request.method == 'POST':
         form = AgentUpdateForm(request.POST, instance=agent)
         if form.is_valid():
-            if(form.save()):
-                messages.success(request, 'Agent details updated successfully.')
+            if (form.save()):
+                messages.success(
+                    request, 'Agent details updated successfully.')
             return redirect('agent_list')  # Redirect to the agent list page
     else:
         form = AgentUpdateForm(instance=agent)
@@ -224,8 +225,9 @@ def personal_details(request):
 def occupation_details(request):
     if request.method == 'POST':
         form = DocumentImagesForm(request.POST, request.FILES)
+        form2 = OccupationDetailsForm(request.POST, request.FILES)
 
-        if form.is_valid():
+        if form.is_valid() and form2.is_valid():
 
             # Save the uploaded images to your media directory
             uploaded_images = []
@@ -244,22 +246,36 @@ def occupation_details(request):
             personal_data = PersonalDetails.objects.get(id=personal_data)
             applicant_id = personal_data.id
 
-            occupation_data = OccupationDetails.objects.create(
-                applicant_id=applicant_id)
+            occupation_data = form2.cleaned_data
+            occupation = OccupationDetails(**occupation_data)
+            occupation.applicant = personal_data
+            occupation.save()
+
+            # occupation_data = OccupationDetails.objects.create(
+            #     applicant=applicant_id,
+            #     role=form2.cleaned_data['role'],
+            #     bank_statement=form2.cleaned_data['bank_statement'],
+            #     salary_slip=form2.cleaned_data['salary_slip'],
+            #     shop_act=form2.cleaned_data['shop_act'],
+            #     itr=form2.cleaned_data['itr'],
+            #     id_card=form2.cleaned_data['id_card'],
+            #     offer_later=form2.cleaned_data['offer_later']
+            # )
 
             # Associate uploaded images with the OccupationDetails instance
             for image_path in uploaded_images:
                 document = DocumentImages(
                     name=image_path.split('/')[-1], image=image_path)
                 document.save()
-                occupation_data.document_image.add(document)
+                occupation.document_image.add(document)
             messages.success(
                 request, 'Your Occupation details were saved successfully.')
             return redirect('vehicle_documents')
     else:
         form = DocumentImagesForm()
+        form2 = OccupationDetailsForm()
 
-    return render(request, 'dashboard/occupentional-detail-step.html', {'form': form})
+    return render(request, 'dashboard/demo3.html', {'form': form, 'form2': form2})
 
 
 @login_required(login_url='login')
@@ -337,7 +353,7 @@ def PatternSourcing(request):
 @login_required(login_url='login')
 def disbursement(request):
     if request.method == 'POST':
-        disbursement_form = DisbursementForm(request.POST)
+        disbursement_form = DisbursementForm(request.POST, request.FILES)
         vehicle_data = request.session.get('loan_data', {})
         vehicle_data = LoanDetails.objects.get(id=vehicle_data)
 
@@ -596,12 +612,11 @@ def gold_details(request):
 
 
 def approve(request, disburs_id):
-        personal_form = Disbursement.objects.get(id=disburs_id)
-        personal_form.status = False
-        if(personal_form.save()):
-            messages.success(request, 'Your Loan Application Update successfully.')
-        return redirect('applicants')
-    
+    personal_form = Disbursement.objects.get(id=disburs_id)
+    personal_form.status = False
+    if (personal_form.save()):
+        messages.success(request, 'Your Loan Application Update successfully.')
+    return redirect('applicants')
 
 
 def generate_loan_details_docx(request, vehicle_id):
@@ -668,6 +683,5 @@ def generate_loan_details_docx(request, vehicle_id):
 # def approved(request, loan_id):
 #     disbursement = get_object_or_404(Disbursement, id=loan_id)
 
-    
 
 #     return render(request, 'dashboard/update-agent.html', {'form': form, 'agent': agent})

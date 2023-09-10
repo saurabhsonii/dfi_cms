@@ -100,7 +100,8 @@ class DocumentImagesForm(forms.ModelForm):
 class OccupationDetailsForm(forms.ModelForm):
     class Meta:
         model = OccupationDetails
-        fields = ['document_image',]
+        fields = '__all__'
+        exclude = ['applicant', 'created_at', 'document_image',]
 
         document_image = forms.FileField(
             widget=forms.ClearableFileInput(attrs={'multiple': True}))
@@ -141,5 +142,7 @@ class DisbursementForm(forms.ModelForm):
             'loan_amount',
             'net_amount',
             'emi_duration',
+            'irr_amount',
+            'screenshot'
 
         ]

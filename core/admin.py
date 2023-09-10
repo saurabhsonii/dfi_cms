@@ -10,7 +10,7 @@ admin.site.register(PatternSourcing)
 # admin.site.register(PatternSourcing)
 admin.site.register(ChannalPattern)
 admin.site.register(OccupationDetails)
-# admin.site.register(DocumentImages)
+admin.site.register(DocumentImages)
 admin.site.register(VehicleDocuments)
 admin.site.register(Disbursement)
 
