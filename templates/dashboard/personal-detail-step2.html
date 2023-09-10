@@ -1,0 +1,197 @@
+{% extends 'dashboard/head.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="container-fluid">
+
+    <div class="d-flex align-items-baseline justify-content-between">
+
+        <!-- Title -->
+        <h1 class="h2">
+            Personal Details
+        </h1>
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Personal Details</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-12 col-xl-12 col-xxl-12">
+
+                <ul class="nav nav-pills steps mb-7 mt-n3 w-75 w-xxl-50 mx-auto" id="wizard-tab" role="tablist">
+                    <li class="nav-item visited" role="presentation">
+                        <button class="nav-link" id="wizardTabOne" data-bs-toggle="pill" data-bs-target="#wizardStepOne"
+                            type="button" role="tab" aria-controls="wizardStepOne" aria-selected="true">
+                            1
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="wizardTabTwo" data-bs-toggle="pill"
+                            data-bs-target="#wizardStepTwo" type="button" role="tab" aria-controls="wizardStepTwo"
+                            aria-selected="false">
+                            2
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="wizardTabThree" data-bs-toggle="pill"
+                            data-bs-target="#wizardStepThree" type="button" role="tab" aria-controls="wizardStepThree"
+                            aria-selected="false">
+                            3
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="wizardTabFour" data-bs-toggle="pill"
+                            data-bs-target="#wizardStepFour" type="button" role="tab" aria-controls="wizardStepThree"
+                            aria-selected="false">
+                            4
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="wizardTabFive" data-bs-toggle="pill"
+                            data-bs-target="#wizardStepFive" type="button" role="tab" aria-controls="wizardStepThree"
+                            aria-selected="false">
+                            5
+                        </button>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content" id="wizard-tabContent">
+
+
+
+                    <div class="tab-pane fade active show" id="wizardStepTwo" role="tabpanel"
+                        aria-labelledby="wizardTabTwo">
+
+                        <!-- Card -->
+
+                        <div class="card border-0 py-6 px-md-6">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <h2 class="text-center">PersonalDetails</h2>
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <label for="teamLeader" class="form-label">title</label>
+                                                {% render_field form.title class="form-control" placeholder="title" %}
+                                                
+                                            </div>
+
+                                            <div class="col-md">
+                                                <label for="teamLeaderEmail" class="form-label">applicant_name</label>
+                                                {% render_field form.applicant_name class="form-control" placeholder="applicant_name" %}
+                                                
+                                            </div>
+                                        </div> <!-- / .row -->
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <label for="teamLeader" class="form-label">father_name</label>
+                                                {% render_field form.father_name class="form-control" placeholder="father_name" %}
+                                                
+                                            </div>
+
+                                            <div class="col-md">
+                                                <label for="teamLeaderEmail" class="form-label">mother_name</label>
+                                                {% render_field form.mother_name class="form-control" placeholder="mother_name" %}
+                                               
+                                            </div>
+                                        </div> <!-- / .row -->
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <label for="teamLeader" class="form-label">applicant_email</label>
+                                                {% render_field form.applicant_email class="form-control" placeholder="applicant_email" %}
+                                            </div>
+
+                                            <div class="col-md">
+                                                <label for="teamLeaderEmail" class="form-label">contact</label>
+                                                {% render_field form.contact class="form-control" placeholder="contact" %}
+                                                
+                                            </div>
+                                        </div> <!-- / .row -->
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <label for="teamLeader" class="form-label">address</label>
+                                                {% render_field form.address class="form-control" placeholder="address" %}
+                                        
+                                            </div>
+
+                                            <div class="col-md">
+                                                <label for="teamLeaderEmail" class="form-label">city</label>
+                                                {% render_field form.city class="form-control" placeholder="city" %}
+                                            </div>
+                                        </div> <!-- / .row -->
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <label for="teamLeader" class="form-label">state</label>
+                                                {% render_field form.state class="form-control" placeholder="state" %}
+                                            
+                                            </div>
+
+                                            <div class="col-md">
+                                                <label for="teamLeaderEmail" class="form-label">county</label>
+                                                {% render_field form.county class="form-control" placeholder="county" %}
+                                              
+                                            </div>
+                                        </div> <!-- / .row -->
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <label for="teamLeader" class="form-label">pincode</label>
+                                                {% render_field form.pincode class="form-control" placeholder="pincode" %}
+                                               
+                                            </div>
+
+
+                                        </div> <!-- / .row -->
+                                    </div>
+
+
+
+
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between">
+
+                                        <!-- Button -->
+                                         <a class="btn btn-light" data-toggle="wizard"
+                                            href="#">Previous</a> 
+
+                                        <!-- Button -->
+                                        <button type="submit" class="btn btn-primary">Next</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div> <!-- / .row -->
+</div> <!-- / .container-fluid -->
+
+
+
+{% endblock %}

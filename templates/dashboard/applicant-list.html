@@ -52,8 +52,8 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="14" width="14" class="me-1"><path d="M0,12a1.5,1.5,0,0,0,1.5,1.5h8.75a.25.25,0,0,1,.25.25V22.5a1.5,1.5,0,0,0,3,0V13.75a.25.25,0,0,1,.25-.25H22.5a1.5,1.5,0,0,0,0-3H13.75a.25.25,0,0,1-.25-.25V1.5a1.5,1.5,0,0,0-3,0v8.75a.25.25,0,0,1-.25.25H1.5A1.5,1.5,0,0,0,0,12Z" style="fill: currentColor"/></svg>
                                         Create key
                                     </button> {% endcomment %}
-                                    {% comment %} <button class="btn btn-primary ms-md-4" href="{% url 'vehicle_details' %}" >Add New </button> {% endcomment %}
-                                    <a href="{% url 'vehicle_details' %}" class="btn btn-primary ms-md-4" role="button" aria-pressed="true">Add New</a>
+                                    {% comment %} <button class="btn btn-primary ms-md-4" href="{% url 'gold_details' %}?type=Gold_Loan" >Add New </button> {% endcomment %}
+                                    <!-- <a href="{% url 'vehicle_details' %}" class="btn btn-primary ms-md-4" role="button" aria-pressed="true">Add New</a> -->
                                     {% comment %} <a href="{% url 'vehicle_details' %}" >Add New </a> {% endcomment %}
                                 </div>
                                 
@@ -65,36 +65,33 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th>
-                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    parent_id
+                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="loan_id">
+                                                    Loan ID
                                                 </a>
                                             </th>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    vehicle_type
+                                                    Customer
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
+                                                    Loan Type
                                                 </a>
                                             </th>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted " style="text-align:center;">
-                                                    vehicle_name 
+                                                    Mobile 
                                                 </a>
                                             </th>
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    vehicle_model
+                                                    Employee (only for manager)
                                                 </a>
                                             </th>
-                                             <th>
-                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    vehicle_number
-                                                </a>
-                                            </th>
-                                             
-                                            
-                                            
                                             <th>
                                                 <a href="javascript: void(0);" class="text-muted list-sort" data-sort="created">
-                                                    created_at
+                                                    Status
                                                 </a>
                                             </th>
                                             <th class="text-end">Actions</th>
@@ -105,13 +102,22 @@
                                         
                                         {% for vehicle in vehicle_data %}
                                         <tr>
-                                            <td class="name">{{vehicle.parent_id}}</td>
-                                            <td class="name">{{vehicle.vehicle_type}}</td> 
-                                            
-                                            <td class="name">{{vehicle.vehicle_name}}</td>
-                                             <td class="name">{{vehicle.vehicle_model}}</td>
-                                             <td class="name">{{vehicle.vehicle_number}}</td>
-                                            <td class="created" data-created="1646179200">{{vehicle.created_at}}</td>
+                                            <td class="name">{{vehicle.id}}</td> 
+                                            <td class="name">{{vehicle.applicant_name}}</td> 
+                                            <td class="name">{{vehicle.loan_type}}</td> 
+                                            <td class="name">{{vehicle.loan_type}}</td> 
+                                            <td class="name">{{vehicle.loan_type}}</td> 
+                                            <td class="created" data-created="1646179200">{{vehicle.status}}
+                                                {% if vehicle.disbursement.status == null %}
+                                                <span class="badge text-bg-info rounded-pill">Unfnished<span>
+                                                {% elif vehicle.disbursement.status == 1 %} 
+                                                <span class="badge text-bg-warning rounded-pill">In-process<span>
+                                                    {% elif vehicle.disbursement.status == 2 %}
+                                                <span class="badge text-bg-success rounded-pill">Approved<span>
+                                                    {% endif %}
+
+                                            </td>
+
                                             <td>
                                                 <!-- Dropdown -->
                                                 <div class="dropdown float-end">
@@ -125,9 +131,15 @@
                                                             </a>
                                                         </li>
                                                       
+                                                        <li>
+                                                            <a class="dropdown-item" href="{% url 'generate_loan_details_docx' vehicle.id %}">
+                                                                Download
+                                                            </a>
+                                                        </li>
+                                                      
                                                         <li><hr class="dropdown-divider"></li>
                                                         <li>
-                                                            {% comment %} <a class="dropdown-item text-danger" href="{% url 'delete_contact' agent.id %}"> {% endcomment %}
+                                                            <a class="dropdown-item text-danger" href="#"> 
                                                                 Delete
                                                             </a>
                                                         </li>

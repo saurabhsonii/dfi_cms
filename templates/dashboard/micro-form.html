@@ -11,7 +11,7 @@
 
                     <!-- Title -->
                     <h1 class="h2">
-                        Vehicle Details
+                        Wizard
                     </h1>
 
                     <!-- Breadcrumb -->
@@ -43,16 +43,7 @@
                                         3
                                     </button>
                                 </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="wizardTabFour" data-bs-toggle="pill" data-bs-target="#wizardStepFour" type="button" role="tab" aria-controls="wizardStepThree" aria-selected="false">
-                                       4 
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="wizardTabFive" data-bs-toggle="pill" data-bs-target="#wizardStepFive" type="button" role="tab" aria-controls="wizardStepThree" aria-selected="false">
-                                        5
-                                    </button>
-                                </li>
+                               
                             </ul>
 
                             <div class="tab-content" id="wizard-tabContent">
@@ -60,44 +51,43 @@
                                 <div class="tab-pane fade show active" id="wizardStepOne" role="tabpanel" aria-labelledby="wizardTabOne">
                                     
                                     <!-- Card -->
-                                    <div class="card border-0 py-2 px-md-12">
+                                    <div class="card border-0 py-6 px-md-12">
                                      <form method="post">
                                         {% csrf_token %}
                                         <div class="card-body">
                                           
-                                            <h2 class="text-center mb-1">VehicleDetails</h2>
+                                            <h2 class="text-center mb-0">MicroDetails</h2>
+                                            <p class="text-secondary text-center">General information about your project</p>
 
                                             <div class="mb-3">
                                                 <div class="row">
-                                                    <div class="col-md" style="display: none;">
-                                                        <label for="projectName" class="form-label">vehicle_type</label>
-                                                        {% render_field form.loan_type class="form-control" value=loan_type placeholder="vehicle_type" required="true" %}
-                                                        <p>{{vehicle_type}}</p>
+                                                    <div class="col-md">
+                                                        <label for="projectName" class="form-label">Loan Type</label>
+                                                        {% render_field form.loan_type class="form-control" value=loan_type placeholder="Loan Type" %}                                                        
+                                                        
+                                                        {% comment %} <input type="text" class="form-control" id="projectName" placeholder="Your project name" required> {% endcomment %}
                                                         <div class="invalid-feedback">Please add your project name</div>
                                                     </div>
 
                                                     <div class="col-md">
-                                                        <label for="owner" class="form-label">Vehicle Name</label>
-                                                         {% render_field form.vehicle_name class="form-control" type="text" placeholder="Vehicle Name" required="true" %}
+                                                        <label for="owner" class="form-label">Micro Name</label>
+                                                         {% render_field form.micro_name class="form-control" placeholder="Micro Name" %}
+                                                        {% comment %} <input type="text" class="form-control" id="owner" placeholder="Owner's name" required> {% endcomment %}
                                                         <div class="invalid-feedback">Please add a name</div>
                                                     </div>
-                                                </div>  
+                                                </div> <!-- / .row -->
                                             </div>
 
                                             <div class="mb-3">
                                                 <div class="row">
                                                     <div class="col-md">
-                                                        <label for="projectName" class="form-label">Vehicle Model</label>
-                                                       {% render_field form.vehicle_model class="form-control" placeholder="Vehicle Model" required="true" %}
+                                                        <label for="projectName" class="form-label">Micro Type</label>
+                                                       {% render_field form.micro_type class="form-control" placeholder="Micro Type" %}
+                                                        {% comment %} <input type="text" class="form-control" id="projectName" placeholder="Your project name" required> {% endcomment %}
                                                         <div class="invalid-feedback">Please add your project name</div>
                                                     </div>
 
-                                                    <div class="col-md">
-                                                        <label for="owner" class="form-label">Vehicle Number</label>
-                                                        {% render_field form.vehicle_number class="form-control" placeholder="Vehicle Number" required="true" %}
-                                                        <div class="invalid-feedback">Please add a name</div>
-                                                    </div>
-                                                </div>
+                                                </div> <!-- / .row -->
                                             </div>
 
                                             
@@ -109,10 +99,12 @@
                                             <div class="d-flex justify-content-between">
 
                                                 <!-- Button -->
-                                                <a type="button" href="#" class="btn btn-light">Loan Application List</a>
+                                                <button type="button" class="btn btn-light">Cancel</button>
 
                                                 <!-- Button -->
                                                 <button type="submit" class="btn btn-primary">Next</button>
+                                                {% comment %} <input type="submit" value="Next"> {% endcomment %}
+                                                {% comment %} <a class="btn btn-primary" type="submit" data-toggle="wizard">Next</a> {% endcomment %}
                                             </div>
                                         </div>
                                         </form>
@@ -315,36 +307,4 @@
                     </div>
                 </div> <!-- / .row -->
             </div> <!-- / .container-fluid -->
-
-            <script>
-                var steps = "{{wizard.steps.step1}}";
-                if(steps == 1 ){
-                    var e = document.getElementById('wizardTabOne');
-                    e.classList.add("active");
-        
-                    e = document.getElementById('wizardStepOne');
-                    e.classList.add("active");
-                    e.classList.add("show");
-                }
-                if(steps == 2 ){
-                    var e = document.getElementById('wizardTabOne');
-                    e.classList.remove("active");
-        
-                    e = document.getElementById('wizardTabTwo');
-                    e.classList.add("active");
-        
-                    var f = document.getElementById('wizardStepTwo');
-                    f.classList.add("active");
-                    f.classList.add("show");
-                }
-                if(steps == 3 ){
-                    const e = document.getElementById('wizardTabThree');
-                    e.classList.add("active");
-        
-                    const f = document.getElementById('wizardStepThree');
-                    f.classList.add("active");
-                    f.classList.add("show");
-                }
-        </script>
-        
             {% endblock %}
