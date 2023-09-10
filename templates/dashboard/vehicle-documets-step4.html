@@ -10,14 +10,14 @@
 
         <!-- Title -->
         <h1 class="h2">
-            Wizard
+            Vehicles Documents
         </h1>
 
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Wizard</li>
+                <li class="breadcrumb-item active" aria-current="page">Vehicles Documents</li>
             </ol>
         </nav>
     </div>
@@ -25,7 +25,6 @@
     <div class="row justify-content-center">
         <div class="col-lg-12 col-xl-12 col-xxl-12">
 
-            {% comment %} <form class="needs-validation" novalidate> {% endcomment %}
                 <ul class="nav nav-pills steps mb-7 mt-n3 w-75 w-xxl-50 mx-auto" id="wizard-tab" role="tablist">
                     <li class="nav-item visited" role="presentation">
                         <button class="nav-link " id="wizardTabOne" data-bs-toggle="pill"
@@ -64,11 +63,6 @@
                 </ul>
 
                 <div class="tab-content" id="wizard-tabContent">
-
-
-
-
-
                     <div class="tab-pane fade active show" id="wizardStepFour" role="tabpanel"
                         aria-labelledby="wizardTabFour">
 
@@ -79,62 +73,53 @@
                                 {% csrf_token %}
                                 <div class="card-body">
                                     <h2 class="text-center mb-0">Vehicles Documents</h2>
-                                    <p class="text-secondary text-center">Set up notifications and alers frequency</p>
+                                    <p class="text-secondary text-center">Upload Your Vehicle Related Documents</p>
 
                                     <div class="mb-3">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label for="recipientEmail" class="form-label">Rc Card</label>
                                                 {% render_field form.rc_card class="form-control" placeholder="Rc card" required=true %}
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label for="recipientEmail" class="form-label">Insurance</label>
                                                 {% render_field form.insurance class="form-control" placeholder="Insurance"required=true  %}
                                             </div>
                                             
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label for="recipientEmail" class="form-label">Form 29 30</label>
                                                 {% render_field form.form_29_30 class="form-control" placeholder="Form 29 30" required=true %}
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label for="recipientEmail" class="form-label">Form 34 35</label>
                                                 {% render_field form.form_34_35 class="form-control" placeholder="Form 34 35" required=true  %}
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label for="recipientEmail" class="form-label">Bank noc</label>
                                                 {% render_field form.bank_noc class="form-control" placeholder="Bank noc" required=true %}
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label for="recipientEmail" class="form-label">Rto noc</label>
                                                 {% render_field form.rto_noc class="form-control" placeholder="Rto noc" required=true %}
                                             </div>
 
                                             
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label for="recipientEmail" class="form-label">Form 28</label>
                                                 {% render_field form.form_28 class="form-control" placeholder="Form 28" required=true %}
                                             </div>
 
                                         </div> <!-- / .row -->
                                     </div>
-
-
-
-
-
-
                                 </div>
-
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-between">
-
                                         <!-- Button -->
                                         <a class="btn btn-light" data-toggle="wizard" href="#wizardStepTwo">Previous</a>
-
                                         <!-- Button -->
                                         <button type="submit" class="btn btn-primary">submit</button>
                                     </div>
@@ -142,14 +127,6 @@
                             </form>
                         </div>
                     </div>
-                    <form method="post" action="" enctype="multipart/form-data">
-
-                        <input type="submit" name="submit" value="Submit">
-
-                        <a href="{% url 'occupation_details' %}" class="btn btn-secondary">Back to Occupation
-                            Details</a>
-
-                    </form>
                 </div>
 
 

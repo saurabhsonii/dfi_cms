@@ -155,7 +155,7 @@ class PersonalDetails(models.Model):
     city = models.CharField(max_length=50)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     county = models.CharField(max_length=150, default="INDIA")
-    vehicle_id = models.ForeignKey(LoanDetails, on_delete=models.CASCADE)
+    vehicle_id = models.ForeignKey(LoanDetails, on_delete=models.CASCADE,related_name='vehicle')
     pincode = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
