@@ -32,7 +32,7 @@ def index_view(request):
 # ---------------------------------contact section-------------------------------------------------------
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
