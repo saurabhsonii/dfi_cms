@@ -488,6 +488,30 @@
                                         </div>
                                     </div> <!-- / .row -->
 
+                                    <div class="row mb-4">
+                                        <div class="col-lg-3">
+                                            <label for="phone" class="col-form-label">irr_amount</label>
+                                        </div>
+
+                                        <div class="col-lg">
+                                            {% render_field disbursement_form.irr_amount class="form-control" placeholder="irr_amount" %}
+                                            {% comment %} <input type="text" class="form-control" id="phone" value="+1(119)980-03-11"> {% endcomment %}
+                                            <div class="invalid-feedback">Please add your phone number</div>
+                                        </div>
+                                    </div> <!-- / .row -->
+
+                                    <div class="row mb-4">
+                                        <div class="col-lg-3">
+                                            <label for="phone" class="col-form-label">screenshot</label>
+                                        </div>
+
+                                        <div class="col-lg">
+                                            {% render_field disbursement_form.screenshot class="form-control" placeholder="screenshot" %}
+                                            {% comment %} <input type="text" class="form-control" id="phone" value="+1(119)980-03-11"> {% endcomment %}
+                                            <div class="invalid-feedback">Please add your phone number</div>
+                                        </div>
+                                    </div> <!-- / .row -->
+
                                     
                                 </div>
                             </div>

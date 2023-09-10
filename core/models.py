@@ -170,9 +170,24 @@ class DocumentImages(models.Model):
     image = models.FileField(
         upload_to="applicant-details/", null=True, blank=True)
 
+ROLE = [
+    ("soloried", "SOLORIED"),
+    ("self employed", "SELF EMPLOYED"),
+    ("partnership", "PARTNERSHIP"),
+    ("proprietor", "PROPRIETOR"),
+    ("other", "OTHER"),
+
+]
 
 class OccupationDetails(models.Model):
     applicant = models.ForeignKey(PersonalDetails, on_delete=models.CASCADE)
+    role = models.CharField(max_length=50,choices=ROLE)
+    bank_statement = models.FileField(upload_to='occupationalDocuments')
+    salary_slip = models.FileField(upload_to='occupationalDocuments')
+    shop_act = models.FileField(upload_to='occupationalDocuments')
+    itr = models.FileField(upload_to='occupationalDocuments')
+    id_card = models.FileField(upload_to='occupationalDocuments')
+    offer_later = models.FileField(upload_to='occupationalDocuments')
     document_image = models.ManyToManyField(DocumentImages)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -190,12 +205,6 @@ class VehicleDocuments(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-DURATION = [
-    ("24 month", "24"),
-    ("36 month", "36"),
-    ("48 month", "48"),
-    ("60 month", "60"),
-]
 
 SOURCE = [
     ("direct", "direct sourcing"),
@@ -233,7 +242,9 @@ class Disbursement(models.Model):
     bank_name = models.CharField(max_length=150)
     loan_amount = models.CharField(max_length=15)
     net_amount = models.CharField(max_length=15)
-    emi_duration = models.CharField(max_length=50, choices=DURATION)
+    emi_duration = models.CharField(max_length=50)
+    irr_amount = models.CharField(max_length=50)
+    screenshot = models.FileField(upload_to='screenshot/')
     status = models.BooleanField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
