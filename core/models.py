@@ -136,12 +136,12 @@ TITLE = [
 ]
 
 
-class State(models.Model):
-    state_name = models.CharField(max_length=150)
-    state_code = models.CharField(max_length=150)
+# class State(models.Model):
+#     state_name = models.CharField(max_length=150)
+#     state_code = models.CharField(max_length=150)
 
-    def __str__(self):
-        return str(self.state_name)
+#     def __str__(self):
+#         return str(self.state_name)
 
 
 class PersonalDetails(models.Model):
@@ -153,7 +153,7 @@ class PersonalDetails(models.Model):
     contact = models.CharField(max_length=15)
     address = models.CharField(max_length=350)
     city = models.CharField(max_length=50)
-    state = models.ForeignKey(State, on_delete=models.CASCADE)
+    state = models.CharField(max_length=150)
     county = models.CharField(max_length=150, default="INDIA")
     vehicle_id = models.ForeignKey(
         LoanDetails, on_delete=models.CASCADE, related_name="PersonalDetails")

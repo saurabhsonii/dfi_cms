@@ -7,7 +7,7 @@ from .forms import (LoginForm, ContactForm, AgentRegistrationForm,
                     VehicleDocumentsForm, DisbursementForm, OccupationDetailsForm, ChannalPatternForm, PatternSourcingForm)
 from django.contrib.auth import logout
 from .models import (Contact, CustomUser, OccupationDetails, DocumentImages,
-                     LoanDetails, PersonalDetails, State, Disbursement, OccupationDetails, VehicleDocuments)
+                     LoanDetails, PersonalDetails, Disbursement, OccupationDetails, VehicleDocuments)
 import os
 from docx import Document
 from django.http import HttpResponse, FileResponse
@@ -23,9 +23,12 @@ from django.contrib.auth.decorators import login_required
 def index_view(request):
     contact_count = Contact.objects.all().count()
     agent_count = CustomUser.objects.filter(parent_id=request.user.id).count()
+    vehicle_data = LoanDetails.objects.all().order_by("-created_at")
+
     context = {
         "contact_count": contact_count,
-        "agent_count": agent_count
+        "agent_count": agent_count,
+        "vehicle_data": vehicle_data
     }
     return render(request, "dashboard/index.html", context)
 
@@ -118,7 +121,7 @@ def register_agent(request):
             agent.save()
             messages.success(request, 'Agent registered successfully.')
             # Redirect to the agent list page
-            return redirect('register_agent')
+            return redirect('agent_list')
 
     else:
         form = AgentRegistrationForm()
@@ -364,10 +367,10 @@ def confirmation(request):
     vehicle.save()
 
     # Deserialize the 'state' field from the dictionary
-    state_data = personal_data.get('state', {})
+    # state_data = personal_data.get('state', {})
 
-    # Retrieve the 'State' instance based on the data in the dictionary
-    state_instance = State.objects.get(id=state_data['id'])
+    # # Retrieve the 'State' instance based on the data in the dictionary
+    # state_instance = State.objects.get(id=state_data['id'])
 
     # Create a new 'PersonalDetails' instance with the retrieved 'State' instance
     personal_details = PersonalDetails(
@@ -379,7 +382,7 @@ def confirmation(request):
         contact=personal_data['contact'],
         address=personal_data['address'],
         city=personal_data['city'],
-        state=state_instance,  # Assign the 'State' instance
+        state=personal_data['state'],  # Assign the 'State' instance
         county=personal_data['county'],
         pincode=personal_data['pincode'],
         vehicle_id=vehicle  # Assign the 'VehicleDetails' instance
@@ -651,3 +654,11 @@ def generate_loan_details_docx(request, vehicle_id):
     return response
 # Example usage:
 # Replace 'user_id' with the actual user ID and 'output_path' with the desired file path
+
+# @login_required(login_url='login')
+# def approved(request, loan_id):
+#     disbursement = get_object_or_404(Disbursement, id=loan_id)
+
+    
+
+#     return render(request, 'dashboard/update-agent.html', {'form': form, 'agent': agent})
