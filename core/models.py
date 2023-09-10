@@ -110,18 +110,18 @@ class Contact(models.Model):
 class LoanDetails(models.Model):
     parent_id = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, null=True)
-    loan_type = models.CharField(max_length=150,null=True,blank=True)
-    vehicle_name = models.CharField(max_length=150,null=True,blank=True)
-    vehicle_model = models.CharField(max_length=250,null=True,blank=True)
-    vehicle_number = models.CharField(max_length=150,null=True,blank=True)
-    home_lap = models.CharField(max_length=200,null=True,blank=True)
-    home_home = models.CharField(max_length=200,null=True,blank=True)
-    business_name = models.CharField(max_length=200,null=True,blank=True)
-    business_type = models.CharField(max_length=200,null=True,blank=True)
-    micro_name = models.CharField(max_length=200,null=True,blank=True)
-    micro_type = models.CharField(max_length=200,null=True,blank=True)
-    gold_type = models.CharField(max_length=150,null=True,blank=True)
-    gold_quantity = models.FloatField(null=True,blank=True)
+    loan_type = models.CharField(max_length=150, null=True, blank=True)
+    vehicle_name = models.CharField(max_length=150, null=True, blank=True)
+    vehicle_model = models.CharField(max_length=250, null=True, blank=True)
+    vehicle_number = models.CharField(max_length=150, null=True, blank=True)
+    home_lap = models.CharField(max_length=200, null=True, blank=True)
+    home_home = models.CharField(max_length=200, null=True, blank=True)
+    business_name = models.CharField(max_length=200, null=True, blank=True)
+    business_type = models.CharField(max_length=200, null=True, blank=True)
+    micro_name = models.CharField(max_length=200, null=True, blank=True)
+    micro_type = models.CharField(max_length=200, null=True, blank=True)
+    gold_type = models.CharField(max_length=150, null=True, blank=True)
+    gold_quantity = models.FloatField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -155,7 +155,8 @@ class PersonalDetails(models.Model):
     city = models.CharField(max_length=50)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     county = models.CharField(max_length=150, default="INDIA")
-    vehicle_id = models.ForeignKey(LoanDetails, on_delete=models.CASCADE)
+    vehicle_id = models.ForeignKey(
+        LoanDetails, on_delete=models.CASCADE, related_name="PersonalDetails")
     pincode = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -196,9 +197,39 @@ DURATION = [
     ("60 month", "60"),
 ]
 
+SOURCE = [
+    ("direct", "direct sourcing"),
+    ("pattern", "pattern sourcing"),
+]
+
+
+class ChannalPattern(models.Model):
+    vehicle_id = models.ForeignKey(
+        LoanDetails, on_delete=models.CASCADE, related_name="ChannalPattern")
+    sourcing = models.CharField(choices=SOURCE, max_length=250)
+
+    def __str__(self):
+        return (f' {str(self.vehicle_id)} - {str(self.sourcing)} ')
+
+
+class PatternSourcing(models.Model):
+    vehicle_id = models.ForeignKey(LoanDetails, models.CASCADE)
+    name_code = models.CharField(max_length=250)
+    address = models.CharField(max_length=450)
+    city_name = models.CharField(max_length=30)
+    pin = models.CharField(max_length=6)
+    bank_name = models.CharField(max_length=56)
+    account_number = models.CharField(max_length=50)
+    ifsc_code = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return (f' {str(self.vehicle_id)} - {str(self.name_code)} ')
+
 
 class Disbursement(models.Model):
-    vehicle_id = models.ForeignKey(LoanDetails, on_delete=models.CASCADE)
+    vehicle_id = models.ForeignKey(
+        LoanDetails, on_delete=models.CASCADE, related_name="Disbursement")
     bank_name = models.CharField(max_length=150)
     loan_amount = models.CharField(max_length=15)
     net_amount = models.CharField(max_length=15)

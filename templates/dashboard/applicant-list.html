@@ -103,20 +103,32 @@
                                         {% for vehicle in vehicle_data %}
                                         <tr>
                                             <td class="name">{{vehicle.id}}</td> 
-                                            <td class="name">{{vehicle.applicant_name}}</td> 
+                                            {% for i in vehicle.PersonalDetails.all %}
+                                            <td class="name">{{i.applicant_name}}</td> 
+                                            {% endfor %}
                                             <td class="name">{{vehicle.loan_type}}</td> 
                                             <td class="name">{{vehicle.loan_type}}</td> 
                                             <td class="name">{{vehicle.loan_type}}</td> 
+                                            
+                                            
                                             <td class="created" data-created="1646179200">{{vehicle.status}}
-                                                {% if vehicle.disbursement.status == null %}
-                                                <span class="badge text-bg-info rounded-pill">Unfnished<span>
-                                                {% elif vehicle.disbursement.status == 1 %} 
+                                                {% if vehicle.Disbursement.all %}
+                                                {% for i in vehicle.Disbursement.all %}
+                                                {% if  i.status == 1 %}
                                                 <span class="badge text-bg-warning rounded-pill">In-process<span>
-                                                    {% elif vehicle.disbursement.status == 2 %}
+                                                    {% elif i.status == 2 %}
                                                 <span class="badge text-bg-success rounded-pill">Approved<span>
                                                     {% endif %}
+                                                    {% endfor %}
 
-                                            </td>
+                                            {% else %}
+                                                <span class="badge text-bg-info rounded-pill">Unfnished<span>
+                                            
+
+                                            </td>{% endif %} 
+                                            
+                                            
+                                              
 
                                             <td>
                                                 <!-- Dropdown -->
