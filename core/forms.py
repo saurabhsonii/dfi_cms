@@ -96,8 +96,17 @@ class DocumentImagesForm(forms.ModelForm):
     image = forms.FileField(
         widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
 
+CUSTOM_ROLE_CHOICES = [
+    ('','Select Role'),
+    ("salaried", "SALARIED"),
+    ("self_employed", "SELF EMPLOYED"),  # Fixed typo in "self employed"
+    ("partnership", "PARTNERSHIP"),
+    ("proprietor", "PROPRIETOR"),
+    ("other", "OTHER"),
+]
 
 class OccupationDetailsForm(forms.ModelForm):
+    role = forms.ChoiceField(choices=CUSTOM_ROLE_CHOICES, label="Role")
     class Meta:
         model = OccupationDetails
         fields = '__all__'
@@ -121,7 +130,15 @@ class VehicleDocumentsForm(forms.ModelForm):
         ]
 
 
+CUSTOM_SOURCE_CHOICES = [
+    ('','select source'),
+    ("direct", "direct sourcing"),
+    ("pattern", "pattern sourcing"),
+]
+
 class ChannalPatternForm(forms.ModelForm):
+    sourcing = forms.ChoiceField(choices=CUSTOM_SOURCE_CHOICES, label="Sourcing")
+
     class Meta:
         model = ChannalPattern
         fields = ["sourcing", ]
@@ -143,6 +160,7 @@ class DisbursementForm(forms.ModelForm):
             'net_amount',
             'emi_duration',
             'irr_amount',
+            'emi_amount',
             'screenshot'
 
         ]

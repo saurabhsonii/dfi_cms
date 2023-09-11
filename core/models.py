@@ -171,7 +171,7 @@ class DocumentImages(models.Model):
         upload_to="applicant-details/", null=True, blank=True)
 
 ROLE = [
-    ("soloried", "SOLORIED"),
+    ("salaried", "SALARIED"),
     ("self employed", "SELF EMPLOYED"),
     ("partnership", "PARTNERSHIP"),
     ("proprietor", "PROPRIETOR"),
@@ -180,8 +180,8 @@ ROLE = [
 ]
 
 class OccupationDetails(models.Model):
-    applicant = models.ForeignKey(PersonalDetails, on_delete=models.CASCADE)
-    role = models.CharField(max_length=50,choices=ROLE)
+    applicant = models.ForeignKey(PersonalDetails, on_delete=models.CASCADE,blank=True)
+    role = models.CharField(max_length=50,choices=ROLE,blank=True)
     bank_statement = models.FileField(upload_to='occupationalDocuments',null=True,blank=True)
     salary_slip = models.FileField(upload_to='occupationalDocuments',null=True,blank=True)
     shop_act = models.FileField(upload_to='occupationalDocuments',null=True,blank=True)
@@ -194,14 +194,14 @@ class OccupationDetails(models.Model):
 
 class VehicleDocuments(models.Model):
     applicant = models.ForeignKey(
-        LoanDetails, on_delete=models.CASCADE, null=True)
-    rc_card = models.FileField(upload_to="VehicleDocuments/")
-    insurance = models.FileField(upload_to="VehicleDocuments/")
-    form_29_30 = models.FileField(upload_to="VehicleDocuments/")
-    form_34_35 = models.FileField(upload_to="VehicleDocuments/")
-    bank_noc = models.FileField(upload_to="VehicleDocuments/")
-    rto_noc = models.FileField(upload_to="VehicleDocuments/")
-    form_28 = models.FileField(upload_to="VehicleDocuments/")
+        LoanDetails, on_delete=models.CASCADE)
+    rc_card = models.FileField(upload_to="VehicleDocuments/",null=True,blank=True)
+    insurance = models.FileField(upload_to="VehicleDocuments/",null=True,blank=True)
+    form_29_30 = models.FileField(upload_to="VehicleDocuments/",null=True,blank=True)
+    form_34_35 = models.FileField(upload_to="VehicleDocuments/",null=True,blank=True)
+    bank_noc = models.FileField(upload_to="VehicleDocuments/",null=True,blank=True)
+    rto_noc = models.FileField(upload_to="VehicleDocuments/",null=True,blank=True)
+    form_28 = models.FileField(upload_to="VehicleDocuments/",null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -223,6 +223,7 @@ class ChannalPattern(models.Model):
 
 class PatternSourcing(models.Model):
     vehicle_id = models.ForeignKey(LoanDetails, models.CASCADE)
+    name = models.CharField(max_length=150,null=True,blank=True)
     name_code = models.CharField(max_length=250)
     address = models.CharField(max_length=450)
     city_name = models.CharField(max_length=30)
@@ -230,6 +231,10 @@ class PatternSourcing(models.Model):
     bank_name = models.CharField(max_length=56)
     account_number = models.CharField(max_length=50)
     ifsc_code = models.CharField(max_length=50)
+    bank_paasbook = models.FileField(upload_to="bank/",null=True,blank=True)
+    bank_paas1 = models.FileField(upload_to="bank/",null=True,blank=True)
+    bank_paas2 = models.FileField(upload_to="bank/",null=True,blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -242,6 +247,7 @@ class Disbursement(models.Model):
     bank_name = models.CharField(max_length=150)
     loan_amount = models.CharField(max_length=15)
     net_amount = models.CharField(max_length=15)
+    emi_amount = models.CharField(max_length=150,blank=True)
     emi_duration = models.CharField(max_length=50)
     irr_amount = models.CharField(max_length=50,null=True,blank=True)
     screenshot = models.FileField(upload_to='screenshot/',null=True,blank=True)

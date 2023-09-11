@@ -8,7 +8,7 @@ from .forms import (LoginForm, ContactForm, AgentRegistrationForm,
                     VehicleDocumentsForm, DisbursementForm, OccupationDetailsForm, ChannalPatternForm, PatternSourcingForm)
 from django.contrib.auth import logout
 from .models import (Contact, CustomUser, OccupationDetails, DocumentImages,
-                     LoanDetails, PersonalDetails, Disbursement, OccupationDetails, VehicleDocuments)
+                     LoanDetails, PersonalDetails, Disbursement, OccupationDetails, VehicleDocuments,ChannalPattern,PatternSourcing)
 import os
 from docx import Document
 from django.http import HttpResponse, FileResponse
@@ -329,7 +329,7 @@ def ChannalPattern(request):
     return render(request, 'dashboard/channalpattern-form-step5.html', {'form': form})
 
 
-def PatternSourcing(request):
+def PatternSourcingForms(request):
     if request.method == 'POST':
         PatternSourcing_Form = PatternSourcingForm(request.POST)
         vehicle_data = request.session.get('loan_data', {})
@@ -436,7 +436,7 @@ def ApplicantView(request):
 
 @login_required(login_url='login')
 def edit_vehicle(request, vehicle_id):
-
+    print(request)
     vehicle = get_object_or_404(LoanDetails, id=vehicle_id)
     # personal_data = get_object_or_404(PersonalDetails, vehicle_id=vehicle_id)
     # occupation_data = get_object_or_404(
@@ -450,6 +450,7 @@ def edit_vehicle(request, vehicle_id):
         vehicle_id=vehicle)
     occupation_data, _ = OccupationDetails.objects.get_or_create(
         applicant=personal_data)
+    pattern_data, _ = PatternSourcing.objects.get_or_create(vehicle_id=vehicle)
     disbursement_data, _ = Disbursement.objects.get_or_create(
         vehicle_id=vehicle)
     VehicleDocuments_data, _ = VehicleDocuments.objects.get_or_create(
@@ -466,24 +467,26 @@ def edit_vehicle(request, vehicle_id):
             request.POST, instance=personal_data)
         occupation_form = OccupationDetailsForm(
             request.POST, instance=occupation_data)
+        pattern_form = PatternSourcingForm(
+            request.POST, instance=pattern_data)
         disbursement_form = DisbursementForm(
             request.POST, instance=disbursement_data)
         VehicleDocuments_form = VehicleDocumentsForm(
             request.POST, request.FILES, instance=VehicleDocuments_data)
-
         document_form = DocumentImagesForm(request.POST, request.FILES)
-
         if (
             vehicle_form.is_valid() and
             personal_form.is_valid() and
-            occupation_form.is_valid() and
+            # occupation_form.is_valid() and
             disbursement_form.is_valid() and
+            pattern_form.is_valid() and
             VehicleDocuments_form.is_valid()
         ):
             vehicle_form.save()
             personal_form.save()
-            occupation_form.save()
+            # occupation_form.save()
             disbursement_form.save()
+            pattern_form.save()
             VehicleDocuments_form.save()
 
             # Handle the document uploads
@@ -503,7 +506,11 @@ def edit_vehicle(request, vehicle_id):
         disbursement_form = DisbursementForm(instance=disbursement_data)
         VehicleDocuments_form = VehicleDocumentsForm(
             instance=VehicleDocuments_data)
+        pattern_form = PatternSourcingForm(
+            instance=pattern_data)
         document_form = DocumentImagesForm()
+        print("Failed",request)
+
 
     return render(request, 'dashboard/applicant-details.html', {
         'vehicle_form': vehicle_form,
@@ -513,6 +520,7 @@ def edit_vehicle(request, vehicle_id):
         'vehicleDocuments_form': VehicleDocuments_form,
         'document_form': document_form,
         'document_images': document_images,
+        "pattern_form":pattern_form,
         'creater': creater
     })
 
