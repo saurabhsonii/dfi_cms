@@ -275,7 +275,7 @@ def occupation_details(request):
         form = DocumentImagesForm()
         form2 = OccupationDetailsForm()
 
-    return render(request, 'dashboard/demo3.html', {'form': form, 'form2': form2})
+    return render(request, 'dashboard/occupentional-detail-step.html', {'form': form, 'form2': form2})
 
 
 @login_required(login_url='login')
