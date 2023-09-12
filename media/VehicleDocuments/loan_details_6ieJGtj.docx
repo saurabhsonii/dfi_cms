@@ -1,0 +1,13 @@
+
+<html>
+<head>
+    <title>Loan Details</title>
+</head>
+<body>
+    <h1>Loan Type: Car Loan</h1>
+    <p>Vehicle Name: My Car</p>
+    <p>Vehicle Model: XYZ123</p>
+    <p>Vehicle Number: ABC123</p>
+    <!-- Add more HTML content here -->
+</body>
+</html>

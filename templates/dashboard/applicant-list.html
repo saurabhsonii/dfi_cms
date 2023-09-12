@@ -1,242 +1,128 @@
-
-
-
 {% extends 'dashboard/head.html' %}
 {% load static %}
 {% block content %}
+<div class="container-fluid">
+    <div class="d-flex align-items-baseline justify-content-between">
+        <!-- Title -->
+        <h1 class="h2">
+            Applicants
+        </h1>
+    </div>
 
+    <div class="row">
+        <div class="col">
+            <!-- Card -->
+            <div class="card border-0 flex-fill w-100" id="applicantsTable">
+                <div class="card-header border-0">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <!-- Title -->
+                        <h2 class="card-header-title h4 text-uppercase">
+                            Applicants
+                        </h2>
 
-            <div class="container-fluid">
-
-                <div class="d-flex align-items-baseline justify-content-between">
-                    
-                    <!-- Title -->
-                    <h1 class="h2">
-                        Applicants
-                    </h1>
-
-                    <!-- Breadcrumb -->
-                    {% comment %} <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">API Keys</li>
-                        </ol>
-                    </nav> {% endcomment %}
+                        <!-- Add New Button -->
+                        <a href="{% url 'vehicle_details' %}" class="btn btn-primary">
+                            Add New
+                        </a>
+                    </div>
                 </div>
 
-                {% comment %} <div class="alert text-bg-info-soft d-flex align-items-center mb-6" role="alert">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="32" width="32" class="me-3"><path d="M23.39,10.53,13.46.6a2.07,2.07,0,0,0-2.92,0L.61,10.54a2.06,2.06,0,0,0,0,2.92h0l9.93,9.92A2,2,0,0,0,12,24a2.07,2.07,0,0,0,1.47-.61l9.92-9.92A2.08,2.08,0,0,0,23.39,10.53ZM11,6.42a1,1,0,0,1,2,0v6a1,1,0,1,1-2,0Zm1.05,11.51h0a1.54,1.54,0,0,1-1.52-1.47A1.47,1.47,0,0,1,12,14.93h0A1.53,1.53,0,0,1,13.5,16.4,1.48,1.48,0,0,1,12.05,17.93Z" style="fill: currentColor"/></svg>                                              
-                    </div>
-                    <p class="mb-0">A private key <strong>should not be shared</strong> with anyone. Do not embed API keys directly in code. Do not store API keys in files inside your application's source tree. If you store API keys in files, keep the files outside your application's source tree to help ensure your keys do not end up in your source code control system. Delete unneeded API keys.</p>       
-                </div> {% endcomment %}
-
-                <div class="row">
-                    <div class="col d-flex">
-
-                        <!-- Card -->
-                        <div class="card border-0 flex-fill w-100" data-list='{"valueNames": ["name", {"name": "key", "attr": "data-key"}, {"name": "status", "attr": "data-status"}, {"name": "created", "attr": "data-created"}], "page": 10}' id="keysTable">
-                            <div class="card-header border-0">
-
-                                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-end">
-
-                                    <!-- Title -->
-                                    <h2 class="card-header-title h4 text-uppercase">
-                                        Applicants
-                                    </h2>
-
-                                    {% comment %} <input class="form-control list-fuzzy-search mw-md-300px ms-md-auto mt-5 mt-md-0 mb-3 mb-md-0" type="search" placeholder="Search in keys"> {% endcomment %}
-
-                                    <!-- Button -->
-                                    {% comment %} <button type="button" class="btn btn-primary ms-md-4" data-bs-toggle="modal" data-bs-target="#createKeyModal">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="14" width="14" class="me-1"><path d="M0,12a1.5,1.5,0,0,0,1.5,1.5h8.75a.25.25,0,0,1,.25.25V22.5a1.5,1.5,0,0,0,3,0V13.75a.25.25,0,0,1,.25-.25H22.5a1.5,1.5,0,0,0,0-3H13.75a.25.25,0,0,1-.25-.25V1.5a1.5,1.5,0,0,0-3,0v8.75a.25.25,0,0,1-.25.25H1.5A1.5,1.5,0,0,0,0,12Z" style="fill: currentColor"/></svg>
-                                        Create key
-                                    </button> {% endcomment %}
-                                    {% comment %} <button class="btn btn-primary ms-md-4" href="{% url 'gold_details' %}?type=Gold_Loan" >Add New </button> {% endcomment %}
-                                    <!-- <a href="{% url 'vehicle_details' %}" class="btn btn-primary ms-md-4" role="button" aria-pressed="true">Add New</a> -->
-                                    {% comment %} <a href="{% url 'vehicle_details' %}" >Add New </a> {% endcomment %}
-                                </div>
-                                
-                            </div>
-
-                            <!-- Table -->
-                            <div class="table-responsive">
-                                <table class="table align-middle table-hover table-nowrap mb-0">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>
-                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="loan_id">
-                                                    Loan ID
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table align-middle table-hover table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Loan ID</th>
+                                <th>Customer</th>
+                                <th>Loan Type</th>
+                                <th style="text-align: center;">Mobile</th>
+                                <th>Employee (only for manager)</th>
+                                <th>Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for vehicle in vehicle_data %}
+                            <tr>
+                                <td>{{ vehicle.id }}</td>
+                                <td>
+                                    {% for i in vehicle.PersonalDetails.all %}
+                                    {{ i.applicant_name }}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ vehicle.loan_type }}</td>
+                                <td>93340121915</td>
+                                <td>Yogesh</td>
+                                <td>
+                                    {{ vehicle.status }}
+                                    {% if vehicle.Disbursement.all %}
+                                    {% for i in vehicle.Disbursement.all %}
+                                    {% if i.status == 1 %}
+                                    <span class="badge text-warning rounded-pill">In-process</span>
+                                    {% elif i.status == 0 %}
+                                    <span class="badge text-success rounded-pill">Approved</span>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                    <span class="badge text-info rounded-pill">Unfinished</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <!-- Dropdown -->
+                                    <div class="dropdown float-end">
+                                        <a href="javascript:void(0);" class="dropdown-toggle no-arrow d-flex text-secondary" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="14" width="14">
+                                                <g>
+                                                    <circle cx="12" cy="3.25" r="3.25" style="fill: currentColor" />
+                                                    <circle cx="12" cy="12" r="3.25" style="fill: currentColor" />
+                                                    <circle cx="12" cy="20.75" r="3.25" style="fill: currentColor" />
+                                                </g>
+                                            </svg>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            {% for i in vehicle.Disbursement.all %}
+                                            {% if i.status == 1 %}
+                                            {% if user.user_role != "agent" %}
+                                            <li>
+                                                <a class="dropdown-item text-success-soft" href="{% url 'approve' i.id %}">
+                                                    Approve
                                                 </a>
-                                            </th>
-                                            <th>
-                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    Customer
-                                                </a>
-                                            </th>
-                                            <th>
-                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    Loan Type
-                                                </a>
-                                            </th>
-                                            <th>
-                                                <a href="javascript: void(0);" class="text-muted " style="text-align:center;">
-                                                    Mobile 
-                                                </a>
-                                            </th>
-                                            <th>
-                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">
-                                                    Employee (only for manager)
-                                                </a>
-                                            </th>
-                                            <th>
-                                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="created">
-                                                    Status
-                                                </a>
-                                            </th>
-                                            <th class="text-end">Actions</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody class="list">
-                                        
-                                        {% for vehicle in vehicle_data %}
-                                        <tr>
-                                            <td class="name">{{vehicle.id}}</td> 
-                                            <td class="name">
-                                            {% for i in vehicle.PersonalDetails.all %}
-                                            {{i.applicant_name}}
-                                            {% endfor %}
-                                            </td> 
-                                            <td class="name">{{vehicle.loan_type}}</td> 
-                                            <td class="name">93340121915</td> 
-                                            <td class="name">Yogesh</td> 
-                                            
-                                            
-                                            <td class="created" data-created="1646179200">{{vehicle.status}}
-                                                {% if vehicle.Disbursement.all %}
-                                                {% for i in vehicle.Disbursement.all %}
-                                                {% if  i.status == 1 %}
-                                                <span class="badge text-bg-warning rounded-pill">In-process<span>
-                                                    {% elif i.status == 0 %}
-                                                <span class="badge text-bg-success rounded-pill">Approved<span>
-                                                    {% endif %}
-                                                    {% endfor %}
-
+                                            </li>
+                                            {% endif %}
                                             {% else %}
-                                                <span class="badge text-bg-info rounded-pill">Unfnished<span>
-                                            
-                                                    {% endif %} 
-                                            </td>
-                                            
-                                            
-                                              
+                                            <li>
+                                                <a class="dropdown-item" href="{% url 'generate_loan_details_docx' vehicle.id %}">
+                                                    Download
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                            {% endfor %}
+                                            <li>
+                                                <a class="dropdown-item" href="{% url 'edit_vehicle' vehicle.id %}">
+                                                    Details
+                                                </a>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <a class="dropdown-item text-danger" href="#">
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
-                                            <td>
-                                                <!-- Dropdown -->
-                                                <div class="dropdown float-end">
-                                                    <a href="javascript: void(0);" class="dropdown-toggle no-arrow d-flex text-secondary" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="14" width="14"><g><circle cx="12" cy="3.25" r="3.25" style="fill: currentColor"/><circle cx="12" cy="12" r="3.25" style="fill: currentColor"/><circle cx="12" cy="20.75" r="3.25" style="fill: currentColor"/></g></svg>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        {% for i in vehicle.Disbursement.all %}
-                                                        {% if  i.status == 1  %}
-                                                        {% if user.user_role != "agent" %}
-                                                        <li>
-                                                            <a class="dropdown-item text-bg-success-soft" href="{% url 'approve' i.id %}">
-                                                                Approve
-                                                            </a>
-                                                        </li>
-                                                        {% endif %} 
-                                                        {% else %}
-                                                        <li>
-                                                            <a class="dropdown-item" href="{% url 'generate_loan_details_docx' vehicle.id %}">
-                                                                Download
-                                                            </a>
-                                                        </li>
-                                                        {% endif %} 
-                                                        {% endfor %}
-                                                        <li>
-                                                            <a class="dropdown-item" href="{% url 'edit_vehicle' vehicle.id %}">
-                                                                Details
-                                                            </a>
-                                                        </li>
-                                                        <li><hr class="dropdown-divider"></li>
-                                                        <li>
-                                                            <a class="dropdown-item text-danger" href="#"> 
-                                                                Delete
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-
-                                    </tbody>
-                                </table>
-                            </div> <!-- / .table-responsive -->
-
-                            <div class="card-footer">
-                                <!-- Pagination -->
-                                <ul class="pagination justify-content-end list-pagination mb-0"></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- / .row -->
-            </div> <!-- / .container-fluid -->
-
-            <!-- Footer-->
-           
-            
-          
-            
-        </main> <!-- / main -->
-
-        <!-- Email modal -->
-        <!-- Add new API key Modal -->
-        <div class="modal fade" id="createKeyModal" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="createKeyModalTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <form class="needs-validation" novalidate id="createKeyForm">
-                        <!-- Header -->
-                        <div class="modal-header pb-0">
-                            <h3 id="createKeyModalTitle" class="modal-title">New API key</h3>
-        
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <!-- End Header -->
-        
-                        <!-- Body -->
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">API key name</label>
-                                <input type="text" class="form-control" id="name" required>
-                                <div class="invalid-feedback">Please add name for the API key</div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="key" class="form-label">API key</label>
-                                <input type="text" class="form-control" id="key" value="6AB6AB16-645C-03C9-EED1-C34EAF9F700A" disabled>
-                            </div>
-                        </div>
-                        <!-- End Body -->
-        
-                        <!-- Footer -->
-                        <div class="modal-footer pt-0">
-        
-                            <!-- Button -->
-                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-        
-                            <!-- Button -->
-                            <button type="button" class="btn btn-primary">Save API Key</button>
-                        </div>
-                        <!-- End Footer -->
-                    </form>
+                <div class="card-footer">
+                    <!-- Pagination -->
+                    <ul class="pagination justify-content-end list-pagination mb-0"></ul>
                 </div>
             </div>
         </div>
-
+    </div>
+</div>
 {% endblock %}
-
-
-
