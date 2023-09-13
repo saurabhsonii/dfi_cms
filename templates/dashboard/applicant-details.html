@@ -110,13 +110,13 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <div class="row mb-4">
+                                    <div class="row mb-4 d-none" >
                                         <div class="col-lg-3">
                                             <label for="fullName" class="col-form-label">vehicle_type</label>
                                         </div>
 
                                         <div class="col-lg">
-                                            {% render_field vehicle_form.vehicle_type class="form-control" placeholder="vehicle_type" %}
+                                            {% render_field vehicle_form.loan_type class="form-control" placeholder="vehicle_type"  %}
                                             {% comment %} <input type="text" class="form-control" id="fullName" value="Ellie K. Tucker"> {% endcomment %}
                                             <div class="invalid-feedback">Please add your full name</div>
                                         </div>
@@ -276,7 +276,7 @@
                                     </div> <!-- / .row -->
                                     <div class="row mb-4">
                                         <div class="col-lg-3">
-                                            <label for="phone" class="col-form-label">county</label>
+                                            <label for="phone" class="col-form-label">country</label>
                                         </div>
 
                                         <div class="col-lg">
@@ -352,7 +352,11 @@
                                         </div>
 
                                         <div class="col-lg">
+                                            {% if VehicleDocuments_data.rc_card.exists %}
+
                                           <img src="{{ VehicleDocuments_data.rc_card.url}}" width="100">
+                                          {% endif %}
+
                                             {% render_field vehicleDocuments_form.rc_card class="form-control" placeholder="rc_card" %}
                                             {% comment %} <input type="text" class="form-control" id="fullName" value="Ellie K. Tucker"> {% endcomment %}
                                             <div class="invalid-feedback">Please add your full name</div>
