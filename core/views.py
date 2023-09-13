@@ -474,6 +474,7 @@ def edit_vehicle(request, vehicle_id):
         VehicleDocuments_form = VehicleDocumentsForm(
             request.POST, request.FILES, instance=VehicleDocuments_data)
         document_form = DocumentImagesForm(request.POST, request.FILES)
+        
         if (
             vehicle_form.is_valid() and
             personal_form.is_valid() and
@@ -495,9 +496,10 @@ def edit_vehicle(request, vehicle_id):
                     name=uploaded_file.name, image=uploaded_file)
                 document.save()
                 occupation_data.document_image.add(document)
-
+                
             # Redirect to the confirmation page after updating the data
-            return redirect('applicants')
+        messages.success(request, 'Your Data Updated successfully.')    
+        return redirect('applicants')
 
     else:
         vehicle_form = LoanDetailsForm(instance=vehicle)
@@ -509,9 +511,8 @@ def edit_vehicle(request, vehicle_id):
         pattern_form = PatternSourcingForm(
             instance=pattern_data)
         document_form = DocumentImagesForm()
-        print("Failed",request)
 
-
+    
     return render(request, 'dashboard/applicant-details.html', {
         'vehicle_form': vehicle_form,
         'personal_form': personal_form,
@@ -520,6 +521,7 @@ def edit_vehicle(request, vehicle_id):
         'vehicleDocuments_form': VehicleDocuments_form,
         'document_form': document_form,
         'document_images': document_images,
+        'VehicleDocuments_data':VehicleDocuments_data,
         "pattern_form":pattern_form,
         'creater': creater
     })

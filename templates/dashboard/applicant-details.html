@@ -352,6 +352,7 @@
                                         </div>
 
                                         <div class="col-lg">
+                                          <img src="{{ VehicleDocuments_data.rc_card.url}}" width="100">
                                             {% render_field vehicleDocuments_form.rc_card class="form-control" placeholder="rc_card" %}
                                             {% comment %} <input type="text" class="form-control" id="fullName" value="Ellie K. Tucker"> {% endcomment %}
                                             <div class="invalid-feedback">Please add your full name</div>
@@ -364,7 +365,13 @@
                                         </div>
 
                                         <div class="col-lg">
+                                            {% if VehicleDocuments_data.insurance.exists %}
+                                            <img src="{{ VehicleDocuments_data.insurance.url }}" width="100">
+
+                                            {% endif %}
+                                            
                                             {% render_field vehicleDocuments_form.insurance class="form-control" placeholder="insurance" %}
+
                                             {% comment %} <input type="text" class="form-control" id="phone" value="+1(119)980-03-11"> {% endcomment %}
                                             <div class="invalid-feedback">Please add your phone number</div>
                                         </div>
@@ -376,6 +383,10 @@
                                         </div>
 
                                         <div class="col-lg">
+                                            {% if VehicleDocuments_data.form_29_30.exists %}
+
+                                            <img src="{{ VehicleDocuments_data.form_29_30.url}}" width="100">
+                                            {% endif %}
                                             {% render_field vehicleDocuments_form.form_29_30 class="form-control" placeholder="form_29_30" %}
                                             {% comment %} <input type="text" class="form-control" id="phone" value="+1(119)980-03-11"> {% endcomment %}
                                             <div class="invalid-feedback">Please add your phone number</div>
@@ -388,6 +399,10 @@
                                         </div>
 
                                         <div class="col-lg">
+                                            {% if VehicleDocuments_data.form_34_35.exists %}
+
+                                            <img src="{{ VehicleDocuments_data.form_34_35.url}}" width="100">
+                                            {% endif %}
                                             {% render_field vehicleDocuments_form.form_34_35 class="form-control" placeholder="form_34_35" %}
                                             {% comment %} <input type="text" class="form-control" id="phone" value="+1(119)980-03-11"> {% endcomment %}
                                             <div class="invalid-feedback">Please add your phone number</div>
@@ -400,6 +415,10 @@
                                         </div>
 
                                         <div class="col-lg">
+                                            {% if VehicleDocuments_data.bank_noc.exists %}
+
+                                            <img src="{{ VehicleDocuments_data.bank_noc.url}}" width="100">
+                                            {% endif %}
                                             {% render_field vehicleDocuments_form.bank_noc class="form-control" placeholder="bank_noc" %}
                                             {% comment %} <input type="text" class="form-control" id="phone" value="+1(119)980-03-11"> {% endcomment %}
                                             <div class="invalid-feedback">Please add your phone number</div>
@@ -412,6 +431,10 @@
                                         </div>
 
                                         <div class="col-lg">
+                                            {% if VehicleDocuments_data.rto_noc.exists %}
+
+                                            <img src="{{ VehicleDocuments_data.rto_noc.url}}" width="100">
+                                            {% endif %}
                                             {% render_field vehicleDocuments_form.rto_noc class="form-control" placeholder="rto_noc" %}
                                             {% comment %} <input type="text" class="form-control" id="phone" value="+1(119)980-03-11"> {% endcomment %}
                                             <div class="invalid-feedback">Please add your phone number</div>
@@ -424,6 +447,10 @@
                                         </div>
 
                                         <div class="col-lg">
+                                            {% if VehicleDocuments_data.form_28.exists %}
+
+                                            <img src="{{ VehicleDocuments_data.form_28.url}}" width="100">
+                                            {% endif %}
                                             {% render_field vehicleDocuments_form.form_28 class="form-control" placeholder="form_28" %}
                                             {% comment %} <input type="text" class="form-control" id="phone" value="+1(119)980-03-11"> {% endcomment %}
                                             <div class="invalid-feedback">Please add your phone number</div>
@@ -1092,7 +1119,7 @@
                                     <div class="d-flex justify-content-end mt-5">
 
                                         <!-- Button -->
-                                        <button type="submit"  name="submit" value="Submit" class="btn btn-success">Update/Edit</button>
+                                        <input type="submit"  name="submit" value="Submit" class="btn btn-success">
                                     </div>
                                 </div>
                             </div>
