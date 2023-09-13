@@ -94,7 +94,7 @@ class DocumentImagesForm(forms.ModelForm):
         fields = ['image',]
 
     image = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+        widget=forms.ClearableFileInput(),required=False)
 
 CUSTOM_ROLE_CHOICES = [
     ('','Select Role'),
@@ -113,7 +113,7 @@ class OccupationDetailsForm(forms.ModelForm):
         exclude = ['applicant', 'created_at', 'document_image',]
 
         document_image = forms.FileField(
-            widget=forms.ClearableFileInput(attrs={'multiple': True}))
+            widget=forms.ClearableFileInput())
 
 
 class VehicleDocumentsForm(forms.ModelForm):

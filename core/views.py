@@ -9,10 +9,8 @@ from .forms import (LoginForm, ContactForm, AgentRegistrationForm,
 from django.contrib.auth import logout
 from .models import (Contact, CustomUser, OccupationDetails, DocumentImages,
                      LoanDetails, PersonalDetails, Disbursement, OccupationDetails, VehicleDocuments,ChannalPattern,PatternSourcing)
-import os
 from docx import Document
 from django.http import HttpResponse, FileResponse
-import html2text
 from docx import Document
 
 from django.contrib.auth.decorators import login_required
